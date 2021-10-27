@@ -2,10 +2,12 @@
 #     t.me/D4n13l3k00      #
 # This code under AGPL-3.0 #
 
-from .. import loader
-from PIL import Image
-from requests import get
 import io
+
+import aiohttp
+from PIL import Image
+
+from .. import loader
 
 
 @loader.tds
@@ -22,7 +24,7 @@ class DebMod(loader.Module):
             await m.edit("не дэб...")
             return
         await m.edit("Дэб'им...")
-        deb = Image.open(io.BytesIO(get("https://x0.at/Evn.png").content))
+        deb = Image.open(await (await aiohttp.ClientSession().get("https://x0.at/Evn.png")).read())
         img = Image.open(image)
         deb.thumbnail((img.width//3, img.height//3))
         img.paste(deb, (0, img.height-deb.height), deb)

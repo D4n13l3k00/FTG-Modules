@@ -2,11 +2,13 @@
 #     t.me/D4n13l3k00      #
 # This code under AGPL-3.0 #
 
-from telethon import functions, types
-from .. import loader, utils
 from asyncio import sleep
+
+from telethon import functions, types
 from telethon.tl.functions.account import UpdateProfileRequest
 from telethon.tl.functions.users import GetFullUserRequest
+
+from .. import loader, utils
 
 
 @loader.tds

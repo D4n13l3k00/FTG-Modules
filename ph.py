@@ -4,9 +4,11 @@
 
 # requires: pornhub-api
 
-from .. import loader, utils
 from random import choice
+
 from pornhub_api import PornhubApi
+
+from .. import loader, utils
 
 
 @loader.tds

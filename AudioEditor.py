@@ -9,7 +9,7 @@ import math
 import re
 
 import numpy as np
-import requests
+import aiohttp
 from pydub import AudioSegment, effects
 from telethon import types
 
@@ -208,9 +208,9 @@ class AudioEditorMod(loader.Module):
         audio = await get_audio(self, m, "Directed by...")
         if not audio:
             return
-        out = audio.audio + AudioSegment.from_file(io.BytesIO(requests.get(
-            "https://raw.githubusercontent.com/D4n13l3k00/files-for-modules/master/directed.mp3").content)).apply_gain(
-            +8)
+        async with aiohttp.ClientSession() as s, s.get("https://raw.githubusercontent.com/D4n13l3k00/files-for-modules/master/directed.mp3") as r:
+            out = audio.audio + AudioSegment.from_file(io.BytesIO(await r.read())).apply_gain(
+                +8)
         await go_out(self, audio.message, audio, out, audio.pref, audio.pref)
 
     @loader.owner

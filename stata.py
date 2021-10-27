@@ -2,8 +2,9 @@
 #     t.me/D4n13l3k00      #
 # This code under AGPL-3.0 #
 
-from .. import loader
 from telethon.tl.types import *
+
+from .. import loader
 
 
 @loader.tds

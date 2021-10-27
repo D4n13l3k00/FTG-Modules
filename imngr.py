@@ -2,11 +2,13 @@
 #     t.me/D4n13l3k00      #
 # This code under AGPL-3.0 #
 
-from .. import loader, utils
 import io
-from PIL import Image, ImageDraw, ImageEnhance
-import PIL.ImageOps
 import re
+
+import PIL.ImageOps
+from PIL import Image, ImageDraw, ImageEnhance
+
+from .. import loader, utils
 
 
 @loader.tds

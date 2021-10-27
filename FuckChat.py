@@ -2,9 +2,10 @@
 #     t.me/D4n13l3k00      #
 # This code under AGPL-3.0 #
 
-from .. import loader, utils
-from asyncio import sleep
 import re
+from asyncio import sleep
+
+from .. import loader, utils
 
 
 @loader.tds

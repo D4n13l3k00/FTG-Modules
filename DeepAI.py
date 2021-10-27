@@ -4,9 +4,11 @@
 
 # DeepAI for FTG by @dekftgmodules
 
-from .. import loader, utils
-import requests
 import io
+
+import requests
+
+from .. import loader, utils
 
 
 def register(cb):

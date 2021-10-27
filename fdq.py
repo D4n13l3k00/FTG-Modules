@@ -2,13 +2,15 @@
 #     t.me/D4n13l3k00      #
 # This code under AGPL-3.0 #
 
-from .. import loader, utils
+import base64
+import io
+
+import requests
 import telethon
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import *
-import requests
-import io
-import base64
+
+from .. import loader, utils
 
 
 @loader.tds

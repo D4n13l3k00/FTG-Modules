@@ -1,8 +1,9 @@
 #   Coded by D4n13l3k00    #
 #     t.me/D4n13l3k00      #
 # This code under AGPL-3.0 #
-from .. import loader, utils
 import io
+
+from .. import loader, utils
 
 
 @loader.tds

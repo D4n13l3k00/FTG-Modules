@@ -2,9 +2,11 @@
 #   t.me/D4n13l3k00     t.me/air_d0t
 # This code under AGPL-3.0
 
+import io
+
 # requires: ShazamAPI
 from ShazamAPI import Shazam
-import io
+
 from .. import loader, utils
 
 

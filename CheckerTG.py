@@ -3,7 +3,7 @@
 # This code under AGPL-3.0 #
 
 from .. import loader, utils
-import requests
+import aiohttp
 
 
 @loader.tds
@@ -31,9 +31,9 @@ class CheckerTGMod(loader.Module):
         else:
             return await m.edit("[CheckerAPI] А кого чекать?")
         await m.edit(self.strings['check'])
-        r = requests.get(
-            'https://api.d4n13l3k00.ru/checkTgId?uid=' + user).json()
-        await m.edit(self.strings['response'].format(r['data'], str(round(r['time'], 3))+"ms"))
+        async with aiohttp.ClientSession() as s, s.get('https://api.d4n13l3k00.ru/checkTgId?uid=' + user) as r:
+            r = await r.json()
+            await m.edit(self.strings['response'].format(r['data'], str(round(r['time'], 3))+"ms"))
 
     @loader.owner
     async def rcheckcmd(self, m):
@@ -51,6 +51,6 @@ class CheckerTGMod(loader.Module):
         else:
             return await m.edit("[CheckerAPI] А кого чекать?")
         await m.edit(self.strings['check'])
-        r = requests.get(
-            'https://api.d4n13l3k00.ru/checkTgId?r=1&uid=' + phone).json()
-        await m.edit(self.strings['response'].format(r['data'], str(round(r['time'], 3))+"ms"))
+        async with aiohttp.ClientSession() as s, s.get('https://api.d4n13l3k00.ru/checkTgId?r=1?uid=' + phone) as r:
+            r = await r.json()
+            await m.edit(self.strings['response'].format(r['data'], str(round(r['time'], 3))+"ms"))

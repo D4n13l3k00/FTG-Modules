@@ -2,10 +2,12 @@
 #     t.me/D4n13l3k00      #
 # This code under AGPL-3.0 #
 
+from io import BytesIO
+
 # requires: pydub speechRecognition
 import speech_recognition as srec
 from pydub import AudioSegment as auds
-from io import BytesIO
+
 from .. import loader, utils
 
 

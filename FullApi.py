@@ -2,9 +2,10 @@
 #     t.me/D4n13l3k00      #
 # This code under AGPL-3.0 #
 
-from requests.api import request
-from .. import loader, utils
 from requests import get
+from requests.api import request
+
+from .. import loader, utils
 
 
 @loader.tds
