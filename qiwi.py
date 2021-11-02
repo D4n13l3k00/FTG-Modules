@@ -84,7 +84,7 @@ class QiwiMod(loader.Module):
         async with QiwiWrapper(self.__get_enc('token'), self.__get_enc('phone')) as w:
             w: QiwiWrapper
             args = utils.get_args(m)
-            args_raw = utils.get_args_raw()
+            args_raw = utils.get_args_raw(m)
             trans_id = await w.to_wallet(
                 to_number=args[0],
                 amount=int(args[1]),
