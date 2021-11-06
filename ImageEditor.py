@@ -19,7 +19,7 @@ from .. import loader, utils
 
 @loader.tds
 class ImageEditorMod(loader.Module):
-    "ImageEditor - простая работа с фото через Pillow"
+    "ImageEditor - Simple tool for working with images"
     strings = {
         "name": "ImageEditor",
         "downloading": "<b>[{}]</b> Downloading...",
