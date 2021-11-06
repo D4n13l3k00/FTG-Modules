@@ -33,6 +33,7 @@ class ImageEditorMod(loader.Module):
 
     @loader.owner
     async def resizeicmd(self, m: types.Message):
+        '.resizei <w> <h> - Resize image'
         _pref = 'Resize'
         args = utils.get_args_raw(m)
         r = re.compile(r'^(\d+)\s+(\d+)$')
