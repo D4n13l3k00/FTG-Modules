@@ -72,7 +72,6 @@ class CaptchaMod(loader.Module):
         if isinstance(m, types.Message):
             client: telethon.TelegramClient = m.client
             l: List[self.CUserModel] = list(filter(lambda x: x.chat == m.chat_id and x.user == m.sender_id, self.locked_users))
-            await client.send_message('me', 'm.sender_id == '+str(bool(l)))
             if l:
                 ntt = l[0]
                 self.locked_users.remove(ntt)
