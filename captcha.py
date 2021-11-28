@@ -4,17 +4,18 @@
 
 # requires: aiohttp pydantic
 
+import asyncio
 import io
 import logging
-from datetime import datetime, timedelta
 from typing import *
-
+from datetime import datetime, timedelta
 import aiohttp
 import pydantic
 import telethon
 from telethon import types
 from telethon.events import ChatAction
 from telethon.tl.functions.channels import EditBannedRequest
+from telethon.tl.types import ChatBannedRights
 
 from .. import loader, utils
 
@@ -59,7 +60,16 @@ class CaptchaMod(loader.Module):
                         im.name = '@DekFTGModules_catpcha.png'
                         m = await client.send_file(m.chat, im, caption=self.strings('pls_pass_captcha').format(u))
                         self.locked_users.append(self.CUserModel(chat=m.chat_id, user=u, message=m.id, answer=answer))
-                        return
+                await asyncio.sleep(60)
+                l: List[self.CUserModel] = list(filter(lambda x: x.chat == m.chat_id and x.user in users, self.locked_users))
+                if l:
+                    for u in l:
+                        self.locked_users.remove(u)
+                        await (await client.get_messages(u.chat, ids=u.message)).delete()
+                        await client(EditBannedRequest(u.chat, u.user, ChatBannedRights(
+                            until_date=None,
+                            view_messages=True
+                        )))
             elif m.user_kicked or m.user_left:
                 users = [i.id for i in m.users]
                 for u in users:
@@ -78,7 +88,10 @@ class CaptchaMod(loader.Module):
                 await (await client.get_messages(ntt.chat, ids=ntt.message)).delete()
                 await m.delete()
                 if ntt.answer.lower() != m.raw_text.lower():
-                    await client.kick_participant(ntt.chat, ntt.user)
+                    await client(EditBannedRequest(ntt.chat, ntt.user, ChatBannedRights(
+                        until_date=None,
+                        view_messages=True
+                    )))
                 
     async def swcaptchacmd(self, m: types.Message):
         'Turn on/off captha in chat'
