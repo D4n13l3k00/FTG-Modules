@@ -34,7 +34,6 @@ class CaptchaMod(loader.Module):
         user: int
         message: int
         answer: str
-        service: int
         
     async def client_ready(self, _, db):
         self.db = db
@@ -59,7 +58,7 @@ class CaptchaMod(loader.Module):
                         im = io.BytesIO(await r.read())
                         im.name = '@DekFTGModules_catpcha.png'
                         m = await client.send_file(m.chat, im, caption=self.strings('pls_pass_captcha').format(u))
-                        self.locked_users.append(self.CUserModel(chat=m.chat_id, user=u, message=m.id, answer=answer, service=m.id))
+                        self.locked_users.append(self.CUserModel(chat=m.chat_id, user=u, message=m.id, answer=answer))
                         return
             elif m.user_kicked or m.user_left:
                 users = [i.id for i in m.users]
@@ -80,7 +79,6 @@ class CaptchaMod(loader.Module):
                 await (await client.get_messages(ntt.chat, ids=ntt.message)).delete()
                 await m.delete()
                 if ntt.answer.lower() != m.raw_text.lower():
-                    await (await client.get_messages(ntt.chat, ids=ntt.service)).delete()
                     await client.kick_participant(ntt.chat, ntt.user)
                 
     async def swcaptchacmd(self, m: types.Message):
