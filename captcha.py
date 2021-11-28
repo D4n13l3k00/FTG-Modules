@@ -27,7 +27,7 @@ class CaptchaMod(loader.Module):
     strings = {
         'name':'Captcha',
         'pls_pass_captcha': '<a href="tg://user?id={}">Хэй</a>, пройди капчу! У тебя одна попытка\nИначе получишь бан на 5 минут!',
-        'captcha_status': '<b>[Capthca]</b> {}'
+        'captcha_status': '<b>[Captcha]</b> {}'
     }
     
     class CUserModel(pydantic.BaseModel):
