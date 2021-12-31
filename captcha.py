@@ -26,7 +26,7 @@ class CaptchaMod(loader.Module):
 
     strings = {
         'name':'Captcha',
-        'pls_pass_captcha': '<a href="tg://user?id={}">Хэй</a>, пройди капчу! У тебя одна попытка\nИначе получишь бан на 5 минут!',
+        'pls_pass_captcha': '<a href="tg://user?id={}">Хэй</a>, пройди капчу! У тебя одна попытка\nИначе получишь бан навсегда!',
         'captcha_status': '<b>[Captcha]</b> {}'
     }
     
@@ -57,7 +57,7 @@ class CaptchaMod(loader.Module):
                     async with aiohttp.ClientSession() as s, s.get('https://api.d4n13l3k00.ru/captcha/generate') as r:
                         answer = r.headers['Captcha-Code']
                         im = io.BytesIO(await r.read())
-                        im.name = '@DekFTGModules_catpcha.png'
+                        im.name = '@DekFTGModules_captcha.png'
                         m = await client.send_file(m.chat, im, caption=self.strings('pls_pass_captcha').format(u))
                         self.locked_users.append(self.CUserModel(chat=m.chat_id, user=u, message=m.id, answer=answer))
                 await asyncio.sleep(60)
@@ -94,7 +94,7 @@ class CaptchaMod(loader.Module):
                     )))
                 
     async def swcaptchacmd(self, m: types.Message):
-        'Turn on/off captha in chat'
+        'Turn on/off captcha in chat'
         l: list = self.db.get(self._db, 'chats', [])
         if m.chat_id in l:
             l.remove(m.chat_id)
