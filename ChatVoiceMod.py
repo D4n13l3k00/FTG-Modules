@@ -37,6 +37,12 @@ class ChatVoiceMod(loader.Module):
     async def client_ready(self, client, _):
         self.client = client
         self.call = PyTgCalls(client)
+        @self.call.on_stream_end()
+        async def _h(client: PyTgCalls, update):
+            try:
+                await self.call.leave_group_call(update['chat_id'])
+            except:
+                pass
         await self.call.start()
 
     async def cplayvcmd(self, m: types.Message):
