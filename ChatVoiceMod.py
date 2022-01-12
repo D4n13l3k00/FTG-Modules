@@ -2,11 +2,13 @@
 #     t.me/D4n13l3k00      #
 # This code under AGPL-3.0 #
 
-# requires: py-tgcalls
+# requires: py-tgcalls youtube-dl
 
+import re
 from typing import *
 
 import pytgcalls
+import youtube_dl
 from pytgcalls import PyTgCalls, StreamType
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import (HighQualityAudio,
@@ -38,18 +40,26 @@ class ChatVoiceMod(loader.Module):
         self.client = client
         self.call = PyTgCalls(client)
         @self.call.on_stream_end()
-        async def _h(client: PyTgCalls, update):
+        async def _h(_, update):
             try:
                 await self.call.leave_group_call(update.chat_id)
-            except Exception as e:
-                await self.client.send_message(update.chat_id, self.strings("error").format(str(e)))
+            except:
+                pass
         await self.call.start()
+
+    async def parse_args(self, args):
+        if not args or not re.match(r'http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?', args):
+            return args
+        with youtube_dl.YoutubeDL({'format': 'best'}) as ydl:
+            info = ydl.extract_info(
+                args, download=False)
+            return info['formats'][0]['url']
 
     async def cplayvcmd(self, m: types.Message):
         "<link/path/reply_to_video> - Play video in voice chat"
         try:
             reply = await m.get_reply_message()
-            path = utils.get_args_raw(m)
+            path = await self.parse_args(utils.get_args_raw(m))
             chat = m.chat.id
             if not path:
                 if not reply:
@@ -78,7 +88,7 @@ class ChatVoiceMod(loader.Module):
         "<link/path/reply_to_audio> - Play audio in voice chat"
         try:
             reply = await m.get_reply_message()
-            path = utils.get_args_raw(m)
+            path = await self.parse_args(utils.get_args_raw(m))
             chat = m.chat.id
             if not path:
                 if not reply:
