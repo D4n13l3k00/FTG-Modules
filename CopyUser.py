@@ -14,7 +14,7 @@ from .. import loader, utils
 @loader.tds
 class CuMod(loader.Module):
     """Полное копирование юзера(ава, имя|фамилия, био)"""
-    strings = {'name': 'Cu'}
+    strings = {'name': 'CopyUser'}
 
     @loader.owner
     async def cucmd(self, message):
