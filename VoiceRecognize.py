@@ -1,6 +1,20 @@
-#   Coded by D4n13l3k00    #
-#     t.me/D4n13l3k00      #
-# This code under AGPL-3.0 #
+"""
+.------.------.------.------.------.------.------.------.------.------.
+|D.--. |4.--. |N.--. |1.--. |3.--. |L.--. |3.--. |K.--. |0.--. |0.--. |
+| :/\: | :/\: | :(): | :/\: | :(): | :/\: | :(): | :/\: | :/\: | :/\: |
+| (__) | :\/: | ()() | (__) | ()() | (__) | ()() | :\/: | :\/: | :\/: |
+| '--'D| '--'4| '--'N| '--'1| '--'3| '--'L| '--'3| '--'K| '--'0| '--'0|
+`------`------`------`------`------`------`------`------`------`------'
+
+                    Copyright 2022 t.me/D4n13l3k00                     
+          Licensed under the Creative Commons CC BY-NC-ND 4.0          
+  
+                   Full license text can be found at:                  
+      https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode      
+    
+                          Human-friendly one:                          
+           https://creativecommons.org/licenses/by-nc-nd/4.0           
+"""
 
 from io import BytesIO
 
@@ -24,19 +38,19 @@ class VoiceRecognitionMod(loader.Module):
         ".recv <reply to voice/audio> - распознать речь"
         reply = await m.get_reply_message()
         if reply and reply.file.mime_type.split('/')[0] == 'audio':
-            await m.edit(self.strings['pref']+"Downloading...")
+            m = await utils.answer(m, self.strings['pref']+"Downloading...")
             source = BytesIO(await reply.download_media(bytes))
             source.name = reply.file.name
             out = BytesIO()
             out.name = 'recog.wav'
-            await m.edit(self.strings['pref']+"Converting...")
+            m = await utils.answer(m, self.strings['pref']+"Converting...")
             auds.from_file(source).export(out, 'wav')
             out.seek(0)
-            await m.edit(self.strings['pref']+"Processing...")
+            m = await utils.answer(m, self.strings['pref']+"Processing...")
             recog = srec.Recognizer()
             sample_audio = srec.AudioFile(out)
             with sample_audio as audio_file:
                 audio_content = recog.record(audio_file)
-            await m.edit(self.strings['pref']+recog.recognize_google(audio_content, language='ru-RU'))
+            await utils.answer(m, self.strings['pref']+recog.recognize_google(audio_content, language='ru-RU'))
         else:
-            await m.edit(self.strings['pref']+"reply to audio/voice...")
+            await utils.answer(m, self.strings['pref']+"reply to audio/voice...")

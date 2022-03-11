@@ -1,10 +1,25 @@
-# Coded by D4n13l3k00  &  air_d0t
-#   t.me/D4n13l3k00     t.me/air_d0t
-# This code under AGPL-3.0
+"""
+.------.------.------.------.------.------.------.------.------.------.
+|D.--. |4.--. |N.--. |1.--. |3.--. |L.--. |3.--. |K.--. |0.--. |0.--. |
+| :/\: | :/\: | :(): | :/\: | :(): | :/\: | :(): | :/\: | :/\: | :/\: |
+| (__) | :\/: | ()() | (__) | ()() | (__) | ()() | :\/: | :\/: | :\/: |
+| '--'D| '--'4| '--'N| '--'1| '--'3| '--'L| '--'3| '--'K| '--'0| '--'0|
+`------`------`------`------`------`------`------`------`------`------'
+
+                    Copyright 2022 t.me/D4n13l3k00                     
+          Licensed under the Creative Commons CC BY-NC-ND 4.0          
+  
+                   Full license text can be found at:                  
+      https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode      
+    
+                          Human-friendly one:                          
+           https://creativecommons.org/licenses/by-nc-nd/4.0           
+"""
+
+# requires: ShazamAPI
 
 import io
 
-# requires: ShazamAPI
 from ShazamAPI import Shazam
 
 from .. import loader, utils
@@ -29,7 +44,7 @@ class ShazamMod(loader.Module):
             await m.client.send_file(m.to_id, file=track['images']['background'], caption=self.tag+"Распознанный трек: "+track['share']['subject'], reply_to=s.reply.id)
             await m.delete()
         except:
-            await m.edit(self.tag+"Не удалось распознать...")
+            await m.edit(f'{self.tag}Не удалось распознать...')
 
     async def shazamtextcmd(self, m):
         '''.shazamtext <reply to audio> - узнать текст трека'''
@@ -43,7 +58,7 @@ class ShazamMod(loader.Module):
             text = track['sections'][1]['text']
             await utils.answer(m, "\n".join(self.tag+f"Текст трека {track['share']['subject']}\n\n"+text))
         except:
-            await m.edit(self.tag+"Не удалось распознать... | Текста нет...")
+            await m.edit(f'{self.tag}Не удалось распознать... | Текста нет...')
 
 
 async def get_audio_shazam(m):
