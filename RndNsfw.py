@@ -27,10 +27,10 @@ from .. import loader, utils
 
 
 def register(cb):
-    cb(EyefGodMod())
+    cb(RandomNSFWMod())
 
 
-class EyefGodMod(loader.Module):
+class RandomNSFWMod(loader.Module):
     """RndNsfw"""
     strings = {'name': 'RndNsfw'}
 

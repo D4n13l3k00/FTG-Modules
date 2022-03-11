@@ -16,8 +16,6 @@
            https://creativecommons.org/licenses/by-nc-nd/4.0           
 """
 
-# DeepAI for FTG by @dekftgmodules
-
 import io
 
 import requests
