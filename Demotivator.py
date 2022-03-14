@@ -15,6 +15,8 @@
                           Human-friendly one:                          
            https://creativecommons.org/licenses/by-nc-nd/4.0           
 """
+# meta developer: @D4n13l3k00
+
 
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
