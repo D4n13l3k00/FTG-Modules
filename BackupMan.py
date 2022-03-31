@@ -29,7 +29,7 @@ class BackupManMod(loader.Module):
     """BackupMan"""
     strings = {'name': 'BackupMan'}
 
-    async def client_ready(self, client, db):
+    async def client_ready(self, _, db):
         self._db = db
 
     @loader.owner

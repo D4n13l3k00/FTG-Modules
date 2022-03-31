@@ -19,7 +19,6 @@
 
 
 from requests import get
-from requests.api import request
 
 from .. import loader, utils
 
@@ -31,6 +30,5 @@ class FullApiMod(loader.Module):
 
     @loader.owner
     async def rndfullcmd(self, m):
-        """.rndfull - получить рандомный фулл :)
-        """
-        await m.edit("<a href=\""+get("https://api.d4n13l3k00.ru/shit/random_full").json()['url']+"\">Подгончик для братков</a>")
+        "получить рандомный фулл :)"
+        await utils.answer(m, "<a href=\""+get("https://api.d4n13l3k00.ru/shit/random_full").json()['url']+"\">Подгончик для братков</a>")

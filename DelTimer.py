@@ -30,8 +30,7 @@ class DelTmMod(loader.Module):
 
     @loader.owner
     async def deltmcmd(self, m):
-        ".deltm <реплай> <секунды>\
-        \nУдалить сообщение в реплае через указанное время"
+        "<реплай> <секунды>\nУдалить сообщение в реплае через указанное время"
         reply = await m.get_reply_message()
         if not reply:
             return await m.edit("reply...")

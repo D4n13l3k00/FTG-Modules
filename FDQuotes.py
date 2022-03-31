@@ -23,7 +23,6 @@ import io
 
 import requests
 import telethon
-from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import *
 
 from .. import loader, utils
