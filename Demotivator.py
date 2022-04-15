@@ -39,7 +39,7 @@ class dmt228Mod(loader.Module):
             return await message.edit("<b>Reply to media</b>")
         try:
             media = reply.media
-        except:
+        except Exception:
             return await message.edit("<b>Only media</b>")
         chat = "@super_rjaka_demotivator_bot"
         await message.edit("<b>Демотивируем...</b>")

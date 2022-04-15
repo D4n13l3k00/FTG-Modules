@@ -58,7 +58,7 @@ class CuMod(loader.Module):
                     try:
                         user = await message.client.get_entity(i)
                         break
-                    except:
+                    except Exception:
                         continue
         if user is None and reply != None:
             user = reply.sender

@@ -26,10 +26,10 @@ from .. import loader, utils
 
 
 def register(cb):
-    cb(deepaiMod())
+    cb(DeepAIMod())
 
 
-class deepaiMod(loader.Module):
+class DeepAIMod(loader.Module):
     strings = {"name": "DeepAI"}
 
     def __init__(self):
@@ -50,11 +50,10 @@ class deepaiMod(loader.Module):
             return
         try:
             media = reply.media
-        except:
+        except Exception:
             await m.edit("<b>Only media</b>")
             return
-        token = self._db.get("deepai", "token", None)
-        if token:
+        if token := self._db.get("deepai", "token", None):
             await m.edit("[DeepAI] Детектим nsfw...")
             photo = io.BytesIO()
             await m.client.download_media(media, photo)
@@ -72,7 +71,7 @@ class deepaiMod(loader.Module):
                     + str(round(r.json()["output"]["nsfw_score"] * 100, 1))
                     + "%"
                 )
-            except:
+            except Exception:
                 await m.edit(f"[DeepAI] {str(r.json())}")
         else:
             await m.edit(

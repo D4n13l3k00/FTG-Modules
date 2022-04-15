@@ -83,7 +83,6 @@ class QiwiMod(loader.Module):
         )
         self.db.set(self._db, key, c.encrypt(pad(value.encode("utf-8"), 8)))
 
-    # create decorator, which will be used to check if user is set phone and p2p token
     def __need_token(func):
         async def wrapper(self, m: types.Message):
             if not self.db.get(self._db, "phone") or not self.db.get(self._db, "token"):
@@ -95,15 +94,16 @@ class QiwiMod(loader.Module):
 
         return wrapper
 
-    # create decorator, which will be used to check if user is set p2p token
     def __need_p2p(func):
         async def wrapper(self, m: types.Message):
-            if not self.db.get(self._db, "p2p"):
-                return await utils.answer(
+            return (
+                await func(self, m)
+                if self.db.get(self._db, "p2p")
+                else await utils.answer(
                     m,
                     self.strings("need_p2p").format(self.strings("pref")),
                 )
-            return await func(self, m)
+            )
 
         return wrapper
 

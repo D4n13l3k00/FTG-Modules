@@ -47,8 +47,7 @@ class HelpMod(loader.Module):
     @loader.unrestricted
     async def helpcmd(self, message):
         """.help [module]"""
-        args = utils.get_args_raw(message)
-        if args:
+        if args := utils.get_args_raw(message):
             module = None
             for mod in self.allmodules.modules:
                 if mod.strings("name", message).lower() == args.lower():
@@ -70,9 +69,10 @@ class HelpMod(loader.Module):
             )
             if module.__doc__:
                 reply += "\n" + "\n".join(
-                    "  " + t
+                    f"  {t}"
                     for t in utils.escape_html(inspect.getdoc(module)).split("\n")
                 )
+
             else:
                 logger.warning("Module %s is missing docstring!", module)
             commands = {
@@ -84,8 +84,9 @@ class HelpMod(loader.Module):
                 reply += self.strings("single_cmd", message).format(name)
                 if fun.__doc__:
                     reply += utils.escape_html(
-                        "\n".join("  " + t for t in inspect.getdoc(fun).split("\n"))
+                        "\n".join(f"  {t}" for t in inspect.getdoc(fun).split("\n"))
                     )
+
                 else:
                     reply += self.strings("undoc_cmd", message)
         else:

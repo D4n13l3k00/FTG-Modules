@@ -47,7 +47,7 @@ class ChatFuckerMod(loader.Module):
                     else:
                         await message.edit("Текста нет!")
                         return
-                except:
+                except Exception:
                     await message.edit("<b>Err</b>")
                     return
             else:
@@ -57,7 +57,7 @@ class ChatFuckerMod(loader.Module):
             try:
                 repeat = int(utils.get_args_raw(message).split(" ")[0])
                 text = re.split(r".[a-z-0-9]{1,} [0-9]{1,} ", message.text)[1]
-            except:
+            except Exception:
                 await message.edit("<b>Err</b>")
                 return
         else:

@@ -67,10 +67,8 @@ class ChatVoiceMod(loader.Module):
 
         @self.call.on_stream_end()
         async def _(_, update):
-            try:
+            with contextlib.suppress(Exception):
                 await self.call.leave_group_call(update.chat_id)
-            except:
-                pass
 
         await self.call.start()
 

@@ -65,7 +65,7 @@ class BackupManMod(loader.Module):
         "Сделать бэкап модулей в *.bkm файл"
         modules = self._db.get("friendly-telegram.modules.loader", "loaded_modules", [])
         txt = io.BytesIO("\n".join(modules).encode("utf-8"))
-        txt.name = "BackupMan-{}.bkm".format(str((await m.client.get_me()).id))
+        txt.name = f"BackupMan-{(await m.client.get_me()).id}.bkm"
         await m.client.send_file(
             m.to_id,
             txt,
@@ -77,9 +77,7 @@ class BackupManMod(loader.Module):
     async def restncmd(self, m):
         "Установить все заметки из *.bkn файла\n<f> - Заменять уже существующие заметки"
         args: list or None = utils.get_args_raw(m)
-        force = False
-        if "f" in args.lower():
-            force = True
+        force = "f" in args.lower()
         reply = await m.get_reply_message()
         if not reply or not reply.file or reply.file.name.split(".")[-1] != "bkn":
             return await m.edit("<b>[BackupMan]</b> Reply to <code>*.bkn</code> file")
@@ -102,7 +100,7 @@ class BackupManMod(loader.Module):
         "Сделать бэкап заметок в *.bkn файл"
         modules = self._db.get("friendly-telegram.modules.notes", "notes", {})
         txt = io.BytesIO(str(modules).encode("utf-8"))
-        txt.name = "BackupMan-{}.bkn".format(str((await m.client.get_me()).id))
+        txt.name = f"BackupMan-{(await m.client.get_me()).id}.bkn"
         await m.client.send_file(
             m.to_id,
             txt,

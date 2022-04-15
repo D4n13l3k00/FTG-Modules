@@ -23,6 +23,7 @@
 from random import choice
 
 from pornhub_api import PornhubApi
+from telethon import types
 
 from .. import loader, utils
 
@@ -32,16 +33,16 @@ class PhSrchMod(loader.Module):
     strings = {"name": "PornHub"}
 
     @loader.owner
-    async def sphcmd(self, m):
+    async def sphcmd(self, m: types.Message):
         "Найти видео на pornhub"
-        args = utils.get_args_raw(m)
-        if args:
+        if args := utils.get_args_raw(m):
             srch = args
         else:
             return await m.delete()
         api = PornhubApi()
         data = api.search.search(srch, ordering="mostviewed")
         video = choice(data.videos)
-        await m.edit(
-            f'<b>Нашёл кое-что по запросу</b> <code>{srch}</code>: <a href="{video.url}">{video.title}</a>'
+        await utils.asnwer(
+            m,
+            f'<b>Нашёл кое-что по запросу</b> <code>{srch}</code>: <a href="{video.url}">{video.title}</a>',
         )

@@ -46,5 +46,5 @@ class SenderMod(loader.Module):
             return await m.edit("[Sender] Такого канала/чата не существует!")
         except Exception as e:
             return await m.edit("[Sender] Неизвестная мне ошибка:\n" + " ".join(e.args))
-        ok = await m.client.send_message(this, reply)
+        await m.client.send_message(this, reply)
         await m.edit("[Sender] Сообщение отправлено!")

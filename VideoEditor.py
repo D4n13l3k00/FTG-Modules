@@ -15,6 +15,9 @@
                           Human-friendly one:                          
            https://creativecommons.org/licenses/by-nc-nd/4.0           
 """
+
+import contextlib
+
 # meta developer: @D4n13l3k00
 
 
@@ -292,11 +295,7 @@ async def go_out(self, m, vid: VideoEditorClass, out: VideoFileClip, pref):
     await utils.answer(
         m, open(filename, "rb"), reply_to=vid.reply.id, supports_streaming=True
     )
-    try:
+    with contextlib.suppress(Exception):
         os.remove(filename)
-    except:
-        pass
-    try:
+    with contextlib.suppress(Exception):
         os.remove(vid.video.filename)
-    except:
-        pass

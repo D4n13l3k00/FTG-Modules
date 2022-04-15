@@ -83,8 +83,9 @@ class DUsersMod(loader.Module):
             await message.client.send_file("me", f, caption="Дамп чата " + str(chat.id))
         else:
             await message.client.send_file(
-                message.to_id, f, caption="Дамп чата " + str(chat.id)
+                message.to_id, f, caption=f"Дамп чата {str(chat.id)}"
             )
+
         if not silent:
             if tome:
                 if num:

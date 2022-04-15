@@ -43,13 +43,13 @@ class CheckerTGMod(loader.Module):
         elif reply:
             try:
                 user = str(reply.sender.id)
-            except:
+            except Exception:
                 return await m.edit("<b>Err</b>")
         else:
             return await m.edit("[CheckerAPI] А кого чекать?")
         await m.edit(self.strings["check"])
         async with aiohttp.ClientSession() as s, s.get(
-            "https://api.d4n13l3k00.ru/tg/leaked/check?uid=" + user
+            f"https://api.d4n13l3k00.ru/tg/leaked/check?uid={user}"
         ) as r:
             r = await r.json()
             await m.edit(
@@ -69,13 +69,13 @@ class CheckerTGMod(loader.Module):
         elif reply:
             try:
                 phone = reply.raw_text
-            except:
+            except Exception:
                 return await m.edit("<b>Err</b>")
         else:
             return await m.edit("[CheckerAPI] А кого чекать?")
         await m.edit(self.strings["check"])
         async with aiohttp.ClientSession() as s, s.get(
-            "https://api.d4n13l3k00.ru/tg/leaked/check?r=1?uid=" + phone
+            f"https://api.d4n13l3k00.ru/tg/leaked/check?r=1?uid={phone}"
         ) as r:
             r = await r.json()
             await m.edit(

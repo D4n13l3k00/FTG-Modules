@@ -34,11 +34,11 @@ class DelTmMod(loader.Module):
         reply = await m.get_reply_message()
         if not reply:
             return await m.edit("reply...")
-        a = re.compile(r"^\d+$")
-        t = utils.get_args_raw(m)
-        if a.match(t):
+        r = re.compile(r"^\d+$")
+        time = utils.get_args_raw(m)
+        if r.match(time):
             await m.delete()
-            await sleep(int(t))
+            await sleep(int(time))
             await reply.delete()
         else:
             await m.edit("shit...")
