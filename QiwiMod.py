@@ -41,6 +41,8 @@ class QiwiMod(loader.Module):
         "need_arg": "{}need args...",
         "phone_setted_successfully": "{}Номер и токен установлены!",
         "p2p_setted_successfully": "{}Секретный P2P токен установлен!",
+        "need_phone_token": "{}Необходимо установить номер токен!",
+        "need_p2p": "{}Необходимо установить P2P токен!",
         "bal": "{}Баланс: {}",
         "commission": "{}Итоговая сумма: {}\nКомиссия Qiwi: {}\nСумма к зачислению: {}",
         "sent": "{}Средства отправлены!\nID: <code>{}</code>",
@@ -81,11 +83,34 @@ class QiwiMod(loader.Module):
         )
         self.db.set(self._db, key, c.encrypt(pad(value.encode("utf-8"), 8)))
 
+    # create decorator, which will be used to check if user is set phone and p2p token
+    def __need_token(func):
+        async def wrapper(self, m: types.Message):
+            if not self.db.get(self._db, "phone") or not self.db.get(self._db, "token"):
+                return await utils.answer(
+                    m,
+                    self.strings("need_phone_token").format(self.strings("pref")),
+                )
+            return await func(self, m)
+
+        return wrapper
+
+    # create decorator, which will be used to check if user is set p2p token
+    def __need_p2p(func):
+        async def wrapper(self, m: types.Message):
+            if not self.db.get(self._db, "p2p"):
+                return await utils.answer(
+                    m,
+                    self.strings("need_p2p").format(self.strings("pref")),
+                )
+            return await func(self, m)
+
+        return wrapper
+
     async def qsetp2pcmd(self, m: types.Message):
         """.qsetp2p <TOKEN>
         Установить секретный p2p ключ"""
-        args = utils.get_args(m)
-        if args:
+        if args := utils.get_args(m):
             self.__set_enc("p2p", args[0])
             return await utils.answer(
                 m, self.strings("p2p_setted_successfully").format(self.strings("pref"))
@@ -95,8 +120,7 @@ class QiwiMod(loader.Module):
     async def qsetcmd(self, m: types.Message):
         """.qset <phone> <TOKEN>
         Установить номер и токен"""
-        args = utils.get_args(m)
-        if args:
+        if args := utils.get_args(m):
             self.__set_enc("phone", args[0])
             self.__set_enc("token", args[1])
             return await utils.answer(
@@ -105,6 +129,7 @@ class QiwiMod(loader.Module):
             )
         await utils.answer(m, self.strings("need_arg").format(self.strings("pref")))
 
+    @__need_token
     async def qbalcmd(self, m: types.Message):
         ".qbal - Получить баланс"
         async with QiwiWrapper(self.__get_enc("token"), self.__get_enc("phone")) as w:
@@ -117,6 +142,7 @@ class QiwiMod(loader.Module):
                 ),
             )
 
+    @__need_token
     async def qswalcmd(self, m: types.Message):
         ".qswal <phone> <amount> <?comment> - Отправить средства по номеру"
         async with QiwiWrapper(self.__get_enc("token"), self.__get_enc("phone")) as w:
@@ -135,6 +161,7 @@ class QiwiMod(loader.Module):
                 ),
             )
 
+    @__need_token
     async def qscardcmd(self, m: types.Message):
         ".qscard <card_num[no_spaces]> <amount> - Отправить средства на карту"
         async with QiwiWrapper(self.__get_enc("token"), self.__get_enc("phone")) as w:
@@ -151,6 +178,7 @@ class QiwiMod(loader.Module):
                 ),
             )
 
+    @__need_token
     async def qcmscmd(self, m: types.Message):
         ".qcms <card_num/phone> <amount> - Посчитать комиссию"
         async with QiwiWrapper(self.__get_enc("token"), self.__get_enc("phone")) as w:
@@ -170,6 +198,7 @@ class QiwiMod(loader.Module):
                 ),
             )
 
+    @__need_p2p
     async def qp2pcmd(self, m: types.Message):
         ".qp2p <amount> <?comment> - Создать счёт для оплаты"
         async with QiwiWrapper(secret_p2p=self.__get_enc("p2p")) as w:
