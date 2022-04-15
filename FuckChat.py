@@ -27,12 +27,13 @@ from .. import loader, utils
 @loader.tds
 class ChatFuckerMod(loader.Module):
     """Чатоёб"""
-    strings = {'name': 'Чатоёб'}
+
+    strings = {"name": "Чатоёб"}
 
     @loader.owner
     async def fccmd(self, message):
         """.fc <Количество заёба> <reply to text/text>
-                Заебать чат (СРЁТ В ЛОГИ)
+        Заебать чат (СРЁТ В ЛОГИ)
         """
         reply = await message.get_reply_message()
         repeat = 0
@@ -40,7 +41,7 @@ class ChatFuckerMod(loader.Module):
         if reply:
             if utils.get_args_raw(message):
                 try:
-                    if(reply.text):
+                    if reply.text:
                         text = reply.text
                         repeat = int(utils.get_args_raw(message))
                     else:

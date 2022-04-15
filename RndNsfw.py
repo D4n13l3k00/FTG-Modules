@@ -34,10 +34,11 @@ def register(cb):
 
 class RandomNSFWMod(loader.Module):
     """RndNsfw"""
-    strings = {'name': 'RndNsfw'}
+
+    strings = {"name": "RndNsfw"}
 
     def __init__(self):
-        self.name = self.strings['name']
+        self.name = self.strings["name"]
         self._me = None
         self._ratelimit = []
 
@@ -51,17 +52,19 @@ class RandomNSFWMod(loader.Module):
         Random pic from @wallhaven_nsfw
         """
         await message.edit("<b>_-*Wallhaven_NSFW*-_</b>")
-        chat = '@wallhaven_nsfw'
-        result = await message.client(functions.messages.GetHistoryRequest(
-            peer=chat,
-            offset_id=0,
-            offset_date=datetime.datetime.now(),
-            add_offset=random.choice(range(1, 101, 2)),
-            limit=1,
-            max_id=0,
-            min_id=0,
-            hash=0
-        ))
+        chat = "@wallhaven_nsfw"
+        result = await message.client(
+            functions.messages.GetHistoryRequest(
+                peer=chat,
+                offset_id=0,
+                offset_date=datetime.datetime.now(),
+                add_offset=random.choice(range(1, 101, 2)),
+                limit=1,
+                max_id=0,
+                min_id=0,
+                hash=0,
+            )
+        )
         await message.delete()
         await message.client.send_file(message.to_id, result.messages[0].media)
 
@@ -70,17 +73,19 @@ class RandomNSFWMod(loader.Module):
         Random post from @dvach18
         """
         await message.edit("<b>_-*2ch_18+*-_</b>")
-        chat = '@dvach18'
-        result = await message.client(functions.messages.GetHistoryRequest(
-            peer=chat,
-            offset_id=0,
-            offset_date=datetime.datetime.now(),
-            add_offset=random.randint(0, 1000),
-            limit=1,
-            max_id=0,
-            min_id=0,
-            hash=0
-        ))
+        chat = "@dvach18"
+        result = await message.client(
+            functions.messages.GetHistoryRequest(
+                peer=chat,
+                offset_id=0,
+                offset_date=datetime.datetime.now(),
+                add_offset=random.randint(0, 1000),
+                limit=1,
+                max_id=0,
+                min_id=0,
+                hash=0,
+            )
+        )
         await message.delete()
         await message.client.send_message(message.to_id, result.messages[0])
 
@@ -89,17 +94,19 @@ class RandomNSFWMod(loader.Module):
         Random post from @ru2ch_ban
         """
         await message.edit("<b>_-*2ch_Ban*-_</b>")
-        chat = '@ru2ch_ban'
-        result = await message.client(functions.messages.GetHistoryRequest(
-            peer=chat,
-            offset_id=0,
-            offset_date=datetime.datetime.now(),
-            add_offset=random.randint(0, 1000),
-            limit=1,
-            max_id=0,
-            min_id=0,
-            hash=0
-        ))
+        chat = "@ru2ch_ban"
+        result = await message.client(
+            functions.messages.GetHistoryRequest(
+                peer=chat,
+                offset_id=0,
+                offset_date=datetime.datetime.now(),
+                add_offset=random.randint(0, 1000),
+                limit=1,
+                max_id=0,
+                min_id=0,
+                hash=0,
+            )
+        )
         await message.delete()
         await message.client.send_message(message.to_id, result.messages[0])
 
@@ -107,19 +114,21 @@ class RandomNSFWMod(loader.Module):
         """
         Random Furry from channel
         """
-        links = ['https://t.me/joinchat/AAAAAEKWTxZPnvacazjM2Q']
+        links = ["https://t.me/joinchat/AAAAAEKWTxZPnvacazjM2Q"]
         await message.edit("<b>_-*Furry*-_</b>")
-        chat = links[random.randint(0, len(links)-1)]
-        result = await message.client(functions.messages.GetHistoryRequest(
-            peer=chat,
-            offset_id=0,
-            offset_date=datetime.datetime.now(),
-            add_offset=random.randint(0, 1000),
-            limit=1,
-            max_id=0,
-            min_id=0,
-            hash=0
-        ))
+        chat = links[random.randint(0, len(links) - 1)]
+        result = await message.client(
+            functions.messages.GetHistoryRequest(
+                peer=chat,
+                offset_id=0,
+                offset_date=datetime.datetime.now(),
+                add_offset=random.randint(0, 1000),
+                limit=1,
+                max_id=0,
+                min_id=0,
+                hash=0,
+            )
+        )
         await message.delete()
         await message.client.send_message(message.to_id, result.messages[0])
 
@@ -128,20 +137,25 @@ class RandomNSFWMod(loader.Module):
         Random Hentai from channels
         """
         #
-        links = ['https://t.me/joinchat/AAAAAEWrsWbhMQppqTMNUw',
-                 'https://t.me/joinchat/AAAAAEkJjU8L9J6TDdkAIw', '@hentai']
+        links = [
+            "https://t.me/joinchat/AAAAAEWrsWbhMQppqTMNUw",
+            "https://t.me/joinchat/AAAAAEkJjU8L9J6TDdkAIw",
+            "@hentai",
+        ]
         await message.edit("<b>_-*Hentai*-_</b>")
-        chat = links[random.randint(0, len(links)-1)]
-        result = await message.client(functions.messages.GetHistoryRequest(
-            peer=chat,
-            offset_id=0,
-            offset_date=datetime.datetime.now(),
-            add_offset=random.randint(0, 1000),
-            limit=1,
-            max_id=0,
-            min_id=0,
-            hash=0
-        ))
+        chat = links[random.randint(0, len(links) - 1)]
+        result = await message.client(
+            functions.messages.GetHistoryRequest(
+                peer=chat,
+                offset_id=0,
+                offset_date=datetime.datetime.now(),
+                add_offset=random.randint(0, 1000),
+                limit=1,
+                max_id=0,
+                min_id=0,
+                hash=0,
+            )
+        )
         await message.delete()
         await message.client.send_message(message.to_id, result.messages[0])
 
@@ -150,7 +164,7 @@ class RandomNSFWMod(loader.Module):
         Random Hentai2D pic/gif from @murglar_bot
         You can type category as argument(mustn't)
         """
-        chat = '@murglar_bot'
+        chat = "@murglar_bot"
         args = utils.get_args_raw(message)
         if args:
             arg = args
@@ -159,15 +173,16 @@ class RandomNSFWMod(loader.Module):
         await message.edit("<b>_-*Hentai_2D*-_</b>")
         async with message.client.conversation(chat) as conv:
             try:
-                response = conv.wait_event(events.NewMessage(
-                    incoming=True, from_users=507490514))
+                response = conv.wait_event(
+                    events.NewMessage(incoming=True, from_users=507490514)
+                )
                 if arg:
-                    m1 = await message.client.send_message(chat, f'/nudes2d {arg}')
+                    m1 = await message.client.send_message(chat, f"/nudes2d {arg}")
                 else:
-                    m1 = await message.client.send_message(chat, f'/nudes2d')
+                    m1 = await message.client.send_message(chat, f"/nudes2d")
                 response = await response
             except YouBlockedUserError:
-                await message.reply('<code>Unblock @murglar_bot</code>')
+                await message.reply("<code>Unblock @murglar_bot</code>")
                 return
             await message.delete()
             await m1.delete()
@@ -178,16 +193,17 @@ class RandomNSFWMod(loader.Module):
         """
         Random Nudes3D from @murglar_bot
         """
-        chat = '@murglar_bot'
+        chat = "@murglar_bot"
         await message.edit("<b>_-*Nudes_3D*-_</b>")
         async with message.client.conversation(chat) as conv:
             try:
-                response = conv.wait_event(events.NewMessage(
-                    incoming=True, from_users=507490514))
-                m1 = await message.client.send_message(chat, '/nudes3d')
+                response = conv.wait_event(
+                    events.NewMessage(incoming=True, from_users=507490514)
+                )
+                m1 = await message.client.send_message(chat, "/nudes3d")
                 response = await response
             except YouBlockedUserError:
-                await message.reply('<code>Unblock @murglar_bot</code>')
+                await message.reply("<code>Unblock @murglar_bot</code>")
                 return
             await message.delete()
             await m1.delete()

@@ -40,9 +40,8 @@ class PhSrchMod(loader.Module):
         else:
             return await m.delete()
         api = PornhubApi()
-        data = api.search.search(
-            srch,
-            ordering="mostviewed"
-        )
+        data = api.search.search(srch, ordering="mostviewed")
         video = choice(data.videos)
-        await m.edit(f"<b>Нашёл кое-что по запросу</b> <code>{srch}</code>: <a href=\"{video.url}\">{video.title}</a>")
+        await m.edit(
+            f'<b>Нашёл кое-что по запросу</b> <code>{srch}</code>: <a href="{video.url}">{video.title}</a>'
+        )

@@ -26,9 +26,15 @@ from .. import loader, utils
 @loader.tds
 class FullApiMod(loader.Module):
     """Фулл"""
-    strings = {'name': 'FullApi'}
+
+    strings = {"name": "FullApi"}
 
     @loader.owner
     async def rndfullcmd(self, m):
         "получить рандомный фулл :)"
-        await utils.answer(m, "<a href=\""+get("https://api.d4n13l3k00.ru/shit/random_full").json()['url']+"\">Подгончик для братков</a>")
+        await utils.answer(
+            m,
+            '<a href="'
+            + get("https://api.d4n13l3k00.ru/shit/random_full").json()["url"]
+            + '">Подгончик для братков</a>',
+        )

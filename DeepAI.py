@@ -30,10 +30,10 @@ def register(cb):
 
 
 class deepaiMod(loader.Module):
-    strings = {'name': 'DeepAI'}
+    strings = {"name": "DeepAI"}
 
     def __init__(self):
-        self.name = self.strings['name']
+        self.name = self.strings["name"]
 
     async def client_ready(self, client, db):
         self._db = db
@@ -43,7 +43,7 @@ class deepaiMod(loader.Module):
         await m.edit("[DeepAI] Токен установлен")
 
     async def cnsfwcmd(self, m):
-        """ .cnsfw <reply to photo/sticker> - Check on nsfw content by DeepAI"""
+        """.cnsfw <reply to photo/sticker> - Check on nsfw content by DeepAI"""
         reply = await m.get_reply_message()
         if not reply:
             await m.edit("<b>Reply to media</b>")
@@ -62,13 +62,19 @@ class deepaiMod(loader.Module):
             r = requests.post(
                 "https://api.deepai.org/api/nsfw-detector",
                 files={
-                    'image': photo.read(),
+                    "image": photo.read(),
                 },
-                headers={'api-key': token}
+                headers={"api-key": token},
             )
             try:
-                await m.edit("[DeepAI] Тут Nsfw на " + str(round(r.json()["output"]["nsfw_score"]*100, 1)) + "%")
+                await m.edit(
+                    "[DeepAI] Тут Nsfw на "
+                    + str(round(r.json()["output"]["nsfw_score"] * 100, 1))
+                    + "%"
+                )
             except:
                 await m.edit(f"[DeepAI] {str(r.json())}")
         else:
-            await m.edit("[DeepAI] Укажите токен для работы с API\n<code>.dai_set_token TOKEN</code>")
+            await m.edit(
+                "[DeepAI] Укажите токен для работы с API\n<code>.dai_set_token TOKEN</code>"
+            )

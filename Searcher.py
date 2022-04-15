@@ -26,10 +26,10 @@ def register(cb):
 
 
 class SearcherMod(loader.Module):
-    strings = {'name': 'Searcher'}
+    strings = {"name": "Searcher"}
 
     def __init__(self):
-        self.name = self.strings['name']
+        self.name = self.strings["name"]
 
     async def srchcmd(self, m):
         """.srch <канал/чат> <запрос>

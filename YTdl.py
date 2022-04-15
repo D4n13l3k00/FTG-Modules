@@ -23,10 +23,16 @@ import os
 
 from telethon.tl.types import DocumentAttributeAudio
 from yt_dlp import YoutubeDL
-from yt_dlp.utils import (ContentTooShortError, DownloadError,
-                              ExtractorError, GeoRestrictedError,
-                              MaxDownloadsReached, PostProcessingError,
-                              UnavailableVideoError, XAttrMetadataError)
+from yt_dlp.utils import (
+    ContentTooShortError,
+    DownloadError,
+    ExtractorError,
+    GeoRestrictedError,
+    MaxDownloadsReached,
+    PostProcessingError,
+    UnavailableVideoError,
+    XAttrMetadataError,
+)
 
 from .. import loader, utils
 
@@ -34,6 +40,7 @@ from .. import loader, utils
 @loader.tds
 class YtDlMod(loader.Module):
     """Youtube-Dl Module"""
+
     strings = {
         "name": "Youtube-Dl",
         "preparing": "<b>[YouTube-Dl]</b> Preparing...",
@@ -44,13 +51,13 @@ class YtDlMod(loader.Module):
         "noargs": "<b>[YouTube-Dl]</b> No args!",
         "content_too_short": "<b>[YouTube-Dl]</b> Downloading content too short!",
         "geoban": "<b>[YouTube-Dl]</b> The video is not available for your geographical location due to geographical restrictions set by the website!",
-        "maxdlserr": "<b>[YouTube-Dl]</b> The download limit is as follows: \" oh ahah\"",
+        "maxdlserr": '<b>[YouTube-Dl]</b> The download limit is as follows: " oh ahah"',
         "pperr": "<b>[YouTube-Dl]</b> Error in post-processing!",
         "noformat": "<b>[YouTube-Dl]</b> Media is not available in the requested format",
         "xameerr": "<b>[YouTube-Dl]</b> {0.code}: {0.msg}\n{0.reason}",
         "exporterr": "<b>[YouTube-Dl]</b> Error when exporting video",
         "err": "<b>[YouTube-Dl]</b> {}",
-        "err2": "<b>[YouTube-Dl]</b> {}: {}"
+        "err2": "<b>[YouTube-Dl]</b> {}: {}",
     }
 
     async def ripvcmd(self, m):
@@ -71,58 +78,40 @@ async def riper(self, m, type):
     m = await utils.answer(m, self.strings("preparing", m))
     if type == "audio":
         opts = {
-            'format':
-                'bestaudio',
-            'addmetadata':
-                True,
-            'key':
-                'FFmpegMetadata',
-            'writethumbnail':
-                True,
-            'prefer_ffmpeg':
-                True,
-            'geo_bypass':
-                True,
-            'nocheckcertificate':
-                True,
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '320',
-            }],
-            'outtmpl':
-                '%(id)s.mp3',
-            'quiet':
-                True,
-            'logtostderr':
-                False
+            "format": "bestaudio",
+            "addmetadata": True,
+            "key": "FFmpegMetadata",
+            "writethumbnail": True,
+            "prefer_ffmpeg": True,
+            "geo_bypass": True,
+            "nocheckcertificate": True,
+            "postprocessors": [
+                {
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "320",
+                }
+            ],
+            "outtmpl": "%(id)s.mp3",
+            "quiet": True,
+            "logtostderr": False,
         }
         video = False
         song = True
     elif type == "video":
         opts = {
-            'format':
-                'best',
-            'addmetadata':
-                True,
-            'key':
-                'FFmpegMetadata',
-            'prefer_ffmpeg':
-                True,
-            'geo_bypass':
-                True,
-            'nocheckcertificate':
-                True,
-            'postprocessors': [{
-                'key': 'FFmpegVideoConvertor',
-                'preferedformat': 'mp4'
-            }],
-            'outtmpl':
-                '%(id)s.mp4',
-            'logtostderr':
-                False,
-            'quiet':
-                True
+            "format": "best",
+            "addmetadata": True,
+            "key": "FFmpegMetadata",
+            "prefer_ffmpeg": True,
+            "geo_bypass": True,
+            "nocheckcertificate": True,
+            "postprocessors": [
+                {"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}
+            ],
+            "outtmpl": "%(id)s.mp4",
+            "logtostderr": False,
+            "quiet": True,
         }
         song = False
         video = True
@@ -147,26 +136,31 @@ async def riper(self, m, type):
     except ExtractorError:
         return await utils.answer(m, self.strings("exporterr", m))
     except Exception as e:
-        return await utils.answer(m, self.strings("err2", m).format(str(type(e)), str(e)))
+        return await utils.answer(
+            m, self.strings("err2", m).format(str(type(e)), str(e))
+        )
     if song:
-        u = rip_data['uploader'] if 'uploader' in rip_data else 'Northing'
-        await utils.answer(m,
-                           open(f"{rip_data['id']}.mp3", "rb"),
-                           supports_streaming=True,
-                           reply_to=reply.id if reply else None,
-                           attributes=[
-                               DocumentAttributeAudio(duration=int(rip_data['duration']),
-                                                      title=str(
-                                                          rip_data['title']),
-                                                      performer=u)
-                           ]
-                           )
+        u = rip_data["uploader"] if "uploader" in rip_data else "Northing"
+        await utils.answer(
+            m,
+            open(f"{rip_data['id']}.mp3", "rb"),
+            supports_streaming=True,
+            reply_to=reply.id if reply else None,
+            attributes=[
+                DocumentAttributeAudio(
+                    duration=int(rip_data["duration"]),
+                    title=str(rip_data["title"]),
+                    performer=u,
+                )
+            ],
+        )
         os.remove(f"{rip_data['id']}.mp3")
     elif video:
-        await utils.answer(m,
-                           open(f"{rip_data['id']}.mp4", "rb"),
-                           reply_to=reply.id if reply else None,
-                           supports_streaming=True,
-                           caption=rip_data['title']
-                           )
+        await utils.answer(
+            m,
+            open(f"{rip_data['id']}.mp4", "rb"),
+            reply_to=reply.id if reply else None,
+            supports_streaming=True,
+            caption=rip_data["title"],
+        )
         os.remove(f"{rip_data['id']}.mp4")

@@ -30,7 +30,8 @@ from .. import loader, utils
 @loader.tds
 class CuMod(loader.Module):
     """Полное копирование юзера(ава, имя|фамилия, био)"""
-    strings = {'name': 'CopyUser'}
+
+    strings = {"name": "CopyUser"}
 
     @loader.owner
     async def cucmd(self, message):
@@ -69,27 +70,37 @@ class CuMod(loader.Module):
             await message.delete()
         if not s:
             for i in range(11):
-                await message.edit(f"Получаем доступ к аккаунту пользователя [{i*10}%]\n[{(i*'#').ljust(10, '–')}]")
+                await message.edit(
+                    f"Получаем доступ к аккаунту пользователя [{i*10}%]\n[{(i*'#').ljust(10, '–')}]"
+                )
                 await sleep(0.3)
         if a:
-            avs = await message.client.get_profile_photos('me')
+            avs = await message.client.get_profile_photos("me")
             if len(avs) > 0:
-                await message.client(functions.photos.DeletePhotosRequest(await message.client.get_profile_photos('me')))
+                await message.client(
+                    functions.photos.DeletePhotosRequest(
+                        await message.client.get_profile_photos("me")
+                    )
+                )
         full = await message.client(GetFullUserRequest(user.id))
         if not s:
             await message.edit("Получаем аватарку... [35%]\n[###–––––––]")
         if full.profile_photo:
-            up = await message.client.upload_file(await message.client.download_profile_photo(user, bytes))
+            up = await message.client.upload_file(
+                await message.client.download_profile_photo(user, bytes)
+            )
             if not s:
                 await message.edit("Ставим аватарку... [50%]\n[#####–––––]")
             await message.client(functions.photos.UploadProfilePhotoRequest(up))
         if not s:
             await message.edit("Получаем данные...  [99%]\n[#########–]")
-        await message.client(UpdateProfileRequest(
-            user.first_name if user.first_name != None else "",
-            user.last_name if user.last_name != None else "",
-            full.about[:70] if full.about != None else ""
-        ))
+        await message.client(
+            UpdateProfileRequest(
+                user.first_name if user.first_name != None else "",
+                user.last_name if user.last_name != None else "",
+                full.about[:70] if full.about != None else "",
+            )
+        )
         if not s:
             await message.edit("Аккаунт клонирован! [100%]\n[##########]")
             await sleep(5)

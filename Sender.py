@@ -27,7 +27,7 @@ from .. import loader, utils
 
 @loader.tds
 class SenderMod(loader.Module):
-    strings = {'name': 'Sender'}
+    strings = {"name": "Sender"}
 
     @loader.owner
     async def sndcmd(self, m):
@@ -39,10 +39,12 @@ class SenderMod(loader.Module):
         if not args:
             return await m.edit("[Sender] Укажите канал/чат")
         try:
-            this = await m.client.get_input_entity(int(args) if re.match(r'-{0,1}\d+', args) else args)
+            this = await m.client.get_input_entity(
+                int(args) if re.match(r"-{0,1}\d+", args) else args
+            )
         except ChannelInvalidError as e:
             return await m.edit("[Sender] Такого канала/чата не существует!")
         except Exception as e:
-            return await m.edit("[Sender] Неизвестная мне ошибка:\n"+" ".join(e.args))
+            return await m.edit("[Sender] Неизвестная мне ошибка:\n" + " ".join(e.args))
         ok = await m.client.send_message(this, reply)
         await m.edit("[Sender] Сообщение отправлено!")

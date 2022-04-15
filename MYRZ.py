@@ -29,7 +29,7 @@ class MailSearcherMod(loader.Module):
     strings = {"name": "AntiPublic MYRZ"}
 
     def __init__(self):
-        self.name = self.strings['name']
+        self.name = self.strings["name"]
 
     async def client_ready(self, client, db):
         self.db = db
@@ -43,7 +43,9 @@ class MailSearcherMod(loader.Module):
         "Получить пароли почты/логина"
         key = self.db.get("myrz", "key", None)
         if not key:
-            await m.edit("<b>Укажите ключ из антипаблика myrz!</b>\n\n<code>.myrz_key [KEY]</code>")
+            await m.edit(
+                "<b>Укажите ключ из антипаблика myrz!</b>\n\n<code>.myrz_key [KEY]</code>"
+            )
             return
         args = utils.get_args_raw(m)
         if args:
@@ -51,15 +53,22 @@ class MailSearcherMod(loader.Module):
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
             }
-            data = requests.post("https://myrz.org/api/email_search.php",
-                                 data={"key": key, "email": args}, headers=headers).json()
+            data = requests.post(
+                "https://myrz.org/api/email_search.php",
+                data={"key": key, "email": args},
+                headers=headers,
+            ).json()
             try:
-                if data['success'] == True:
-                    psswds = "\n".join(f"<code>{i['line']}</code>" for i in data['results'])
+                if data["success"] == True:
+                    psswds = "\n".join(
+                        f"<code>{i['line']}</code>" for i in data["results"]
+                    )
                     psswds += f"\n\nОсталось запросов: {data['awailableQueries']}\nНайдено: {data['resultCount']}\nЗапрос: <code>{args}</code>"
                     await utils.answer(m, str(psswds))
                 else:
-                    await m.edit(f"Ничего не найдено по запросу <code>{args}</code>\nОсталось запросов: {data['awailableQueries']}")
+                    await m.edit(
+                        f"Ничего не найдено по запросу <code>{args}</code>\nОсталось запросов: {data['awailableQueries']}"
+                    )
             except:
                 await m.edit(str(data))
         else:

@@ -31,8 +31,7 @@ class VSHAKALMod(loader.Module):
 
     @loader.owner
     async def vshcmd(self, m):
-        ".vsh <реплай на видео> <уровень от 1 до 6 (по умолчанию 3)>\n"\
-        "Сшакалить видео"
+        ".vsh <реплай на видео> <уровень от 1 до 6 (по умолчанию 3)>\n" "Сшакалить видео"
         reply = await m.get_reply_message()
         if not reply:
             return await utils.answer(m, "reply...")
@@ -56,18 +55,15 @@ class VSHAKALMod(loader.Module):
             lvl = lvls["3"]
         m = await utils.answer(m, "[Шакал] Качаю...")
         vid = await reply.download_media(
-            "".join(random.choice(string.ascii_letters) for _ in range(25))
-            + ".mp4"
+            "".join(random.choice(string.ascii_letters) for _ in range(25)) + ".mp4"
         )
 
-        out = (
-            "".join(random.choice(string.ascii_letters) for _ in range(25))
-            + ".mp4"
-        )
+        out = "".join(random.choice(string.ascii_letters) for _ in range(25)) + ".mp4"
 
         m = await utils.answer(m, "[Шакал] Шакалю...")
         os.system(
-            f"ffmpeg -y -i \"{vid}\" -b:v {lvl} -maxrate:v {lvl} -b:a {lvl} -maxrate:a {lvl} \"{out}\"")
+            f'ffmpeg -y -i "{vid}" -b:v {lvl} -maxrate:v {lvl} -b:a {lvl} -maxrate:a {lvl} "{out}"'
+        )
         m = await utils.answer(m, "[Шакал] Отправляю...")
         await utils.answer(m, out)
         os.remove(vid)
