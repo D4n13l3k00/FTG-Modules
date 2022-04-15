@@ -194,7 +194,7 @@ class QiwiMod(loader.Module):
                         ),
                     )
                     break
-                status = await bill.check()
+                status = (await w.check_p2p_bill_status(bill_id=bill.bill_id)) == "PAID"
                 if status != last_status:
                     last_status = status
                     await utils.answer(

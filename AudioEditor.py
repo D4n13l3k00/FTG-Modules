@@ -281,8 +281,8 @@ class AudioEditorMod(loader.Module):
         ee = r.match(args)
         if not ee:
             return await utils.answer(m, self.strings("set_time", m).format("Cut"))
-        start = int(ee.group("start")) if ee.group("start") else 0
-        end = int(ee.group("end")) if ee.group("end") else 0
+        start = int(ee["start"]) if ee["start"] else 0
+        end = int(ee["end"]) if ee["end"] else 0
         audio = await get_audio(self, m, "Cut")
         if not audio:
             return
@@ -322,31 +322,31 @@ async def get_audio(self, m, pref):
     return None
 
 
-async def go_out(self, m, audio, out, pref, title, fs=None, fmt="mp3"):
-    o = io.BytesIO()
-    o.name = "audio." + ("ogg" if audio.voice else "mp3")
+async def go_out(self, message, audio, out, pref, title, fs=None, fmt="mp3"):
+    out_file = io.BytesIO()
+    out_file.name = "audio." + ("ogg" if audio.voice else "mp3")
     if audio.voice:
         out.split_to_mono()
-    m = await utils.answer(m, self.strings("exporting").format(pref))
+    message = await utils.answer(message, self.strings("exporting").format(pref))
     out.export(
-        o,
+        out_file,
         format="ogg" if audio.voice else fmt,
         bitrate="64k" if audio.voice else None,
         codec="libopus" if audio.voice else None,
     )
-    o.seek(0)
+    out_file.seek(0)
     await utils.answer(
-        m,
-        o,
+        message,
+        out_file,
         reply_to=audio.reply.id,
         voice_note=audio.voice,
-        attributes=[
+        attributes=None
+        if audio.voice
+        else [
             types.DocumentAttributeAudio(
                 duration=fs or audio.duration,
                 title=title,
                 performer="AudioEditor",
             )
-        ]
-        if not audio.voice
-        else None,
+        ],
     )
