@@ -17,6 +17,7 @@
 # meta developer: @D4n13l3k00
 
 
+import contextlib
 from .. import loader
 from telethon import functions
 
@@ -31,80 +32,82 @@ class ReactionsMod(loader.Module):
         self.client = client
 
     def reaction(func):
-        async def wrapper(self, *args, **kwargs):
+        async def wrapper(self, *args):
             "<reply>"
-            message, emoji = await func(self, *args, **kwargs)
+            message = args[0]
+            emoji = await func(self)
             if reply := await message.get_reply_message():
-                await self.client(
-                    functions.messages.SendReactionRequest(
-                        reply.peer_id, reply.id, reaction=emoji
+                with contextlib.suppress(Exception):
+                    await self.client(
+                        functions.messages.SendReactionRequest(
+                            reply.peer_id, reply.id, reaction=emoji
+                        )
                     )
-                )
             if message.out:
                 await message.delete()
 
         return wrapper
 
     @reaction
-    async def lovecmd(self, m):
-        return m, "❤"
+    async def lovecmd(self):
+        return "❤"
 
     @reaction
-    async def sadcmd(self, m):
-        return m, "😢"
+    async def sadcmd(self):
+        return "😢"
 
     @reaction
-    async def nastycmd(self, m):
-        return m, "🤮"
+    async def nastycmd(self):
+        return "🤮"
 
     @reaction
-    async def cutecmd(self, m):
-        return m, "🥰"
+    async def cutecmd(self):
+        return "🥰"
 
     @reaction
-    async def clapcmd(self, m):
-        return m, "👏"
+    async def clapcmd(self):
+        return "👏"
 
     @reaction
-    async def fuckcmd(self, m):
-        return m, "🤬"
+    async def fuckcmd(self):
+        return "🤬"
 
     @reaction
-    async def wtfcmd(self, m):
-        return m, "🤯"
+    async def wtfcmd(self):
+        return "🤯"
 
     @reaction
-    async def hmmcmd(self, m):
-        return m, "🤔"
+    async def hmmcmd(self):
+        return "🤔"
 
     @reaction
-    async def hooraycmd(self, m):
-        return m, "🎉"
+    async def hooraycmd(self):
+        return "🎉"
 
     @reaction
-    async def likecmd(self, m):
-        return m, "👍"
+    async def likecmd(self):
+        return "👍"
 
     @reaction
-    async def dislikecmd(self, m):
-        return m, "👎"
+    async def dislikecmd(self):
+        return "👎"
 
     @reaction
-    async def firecmd(self, m):
-        return m, "🔥"
+    async def firecmd(self):
+        return "🔥"
 
     @reaction
-    async def omgcmd(self, m):
-        return m, "😱"
+    async def omgcmd(self):
+        return "😱"
 
     @reaction
-    async def wowcmd(self, m):
-        return m, "🤩"
+    async def wowcmd(self):
+        return "🤩"
 
     @reaction
-    async def hehecmd(self, m):
-        return m, "😁"
+    async def hehecmd(self):
+        return "😁"
 
     @reaction
-    async def shitcmd(self, m):
-        return m, "💩"
+    async def shitcmd(self):
+        return "💩"
