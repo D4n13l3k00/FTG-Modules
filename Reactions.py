@@ -18,6 +18,7 @@
 
 
 import contextlib
+from random import choice
 from .. import loader
 from telethon import functions
 
@@ -47,6 +48,10 @@ class ReactionsMod(loader.Module):
                 await message.delete()
 
         return wrapper
+
+    @reaction
+    async def randrcmd(self):
+        return choice("👍👎❤️🔥🎉🤩😱😁😢💩🤮🥰🤯🤔🤬👏")
 
     @reaction
     async def lovecmd(self):
