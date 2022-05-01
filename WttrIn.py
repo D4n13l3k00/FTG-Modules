@@ -26,7 +26,7 @@ from .. import loader, utils
 class WttrInMod(loader.Module):
     """WttrIn"""
 
-    strings = {"name": "WttrIn"}
+    strings = {"name": __doc__}
 
     @loader.owner
     async def wthrcmd(self, m):
@@ -35,12 +35,13 @@ class WttrInMod(loader.Module):
         """
         rr = utils.get_args_raw(m)
 
-        await m.edit(
+        await utils.answer(
+            m,
             "<code>{}</code>".format(
                 await (
                     await aiohttp.ClientSession().get(
                         f"https://wttr.in/{rr if rr != None else ''}?0Tq&lang=ru"
                     )
                 ).text()
-            )
+            ),
         )
