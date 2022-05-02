@@ -1,7 +1,11 @@
 # FTG-Modules
 
-### Все мои Friendly-Telegram модули
+### 📥 Все мои Friendly-Telegram модули
 
-`Совместимы с Friendly-Telegram, GeekTG Userbot`
+`✅ Совместимы с Friendly-Telegram, GeekTG Userbot`
 
-[@dekftgmodules](https://t.me/dekftgmodules)
+[@DekFTGModules](https://t.me/DekFTGModules)
+
+---
+
+[Шаблон багрепорта](/bug_report.md) | [Поддержка [Чат]](https://t.me/dftgmchat)
