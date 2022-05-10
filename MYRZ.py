@@ -46,8 +46,7 @@ class MailSearcherMod(loader.Module):
                 "<b>Укажите ключ из антипаблика myrz!</b>\n\n<code>.myrz_key [KEY]</code>"
             )
             return
-        args = utils.get_args_raw(m)
-        if args:
+        if args := utils.get_args_raw(m):
             await m.edit("Делаю запрос...")
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
@@ -68,7 +67,7 @@ class MailSearcherMod(loader.Module):
                     await m.edit(
                         f"Ничего не найдено по запросу <code>{args}</code>\nОсталось запросов: {data['awailableQueries']}"
                     )
-            except:
+            except Exception:
                 await m.edit(str(data))
         else:
             await m.edit("shit...")

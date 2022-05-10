@@ -42,16 +42,16 @@ class RandomizerMod(loader.Module):
                     + f"<b>Режим:</b> Рандомное число из диапозона\n<b>Диапозон:</b> <code>{fr}-{to}</code>\n<b>Выпало число:</b> <code>{rndint}</code>"
                 )
             else:
-                await m.edit(self.prefix + "Вася, укажи диапозон чисел!")
+                await m.edit(f"{self.prefix}Вася, укажи диапозон чисел!")
         else:
-            await m.edit(self.prefix + "Вася, укажи диапозон чисел!")
+            await m.edit(f"{self.prefix}Вася, укажи диапозон чисел!")
 
     @loader.owner
     async def rndelmcmd(self, m):
         ".rndelm <элементы через запятую> - рандомный элемент из списка"
         args = utils.get_args_raw(m)
         if not args:
-            await m.edit(self.prefix + "Вася, напиши список элементов через запятую!")
+            await m.edit(f"{self.prefix}Вася, напиши список элементов через запятую!")
             return
         lst = [i.strip() for i in args.split(",") if i]
         await m.edit(
@@ -63,7 +63,7 @@ class RandomizerMod(loader.Module):
     async def rndusercmd(self, m):
         ".rnduser - выбор рандомного юзера из чата"
         if not m.chat:
-            await m.edit(self.prefix + "<b>Это не чат</b>")
+            await m.edit(f"{self.prefix}<b>Это не чат</b>")
             return
         users = await m.client.get_participants(m.chat)
         user = random.choice(users)
