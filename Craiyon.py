@@ -19,6 +19,7 @@
 import base64
 import io
 from typing import List
+from PIL import Image
 
 import aiohttp
 from telethon import types
@@ -34,7 +35,7 @@ class CraiyonMod(loader.Module):
         "preparing": "<b>[Craiyon] 📥 Preparing...</b>",
         "generating": "<b>[Craiyon] ✨ Generating images...</b>",
         "uploading": "<b>[Craiyon] 📤 Uploading images...</b>",
-        "result_with_url": '<b>[Craiyon] 🎉 Generated images:</b>\n<a href="{}">telegra.ph</a>',
+        "result_with_url": "<b>[Craiyon] 🎉 Generated images:</b>\n{}",
         "error": "<b>[Craiyon]\n❌ Python error:</b>\n<code>{}</code>\n<b> 📜 Response of server:</b>\n<code>{}</code>",
     }
 
@@ -121,20 +122,17 @@ class CraiyonMod(loader.Module):
                 uploaded_imgs = []
                 await utils.answer(m, self.strings("uploading", m))
                 for i in data["images"]:
-                    imgs.append(io.BytesIO(base64.b64decode(i.encode())))
+                    image_data = base64.b64decode(i.encode())
+                    image = Image.open(io.BytesIO(image_data))
+                    image_buffer = io.BytesIO()
+                    image.save(image_buffer, format="JPEG")
+                    imgs.append(image_buffer)
                 for i, img in enumerate(imgs, 1):
                     img.name = f"craiyon-{i}.jpg"
                     file = aiohttp.FormData()
-                    file.add_field(
-                        "file",
-                        img.getvalue(),
-                        filename=img.name,
-                        content_type="image/jpeg",
-                    )
-                    async with session.get(
-                        "https://telegra.ph/upload",
-                        # send file
-                        data=file,
+                    file.add_field("file", img.getvalue(), content_type="image/jpeg")
+                    async with session.post(
+                        "https://telegra.ph/upload", data=file
                     ) as resp:
                         try:
                             data = await resp.json(content_type=None)
@@ -154,17 +152,31 @@ class CraiyonMod(loader.Module):
                 "https://api.telegra.ph/createPage",
                 json={
                     "title": "Craiyon-FTG",
-                    "content": {f"<img src='{i}'>" for i in uploaded_imgs},
+                    "content": [
+                        {
+                            "tag": "img",
+                            "attrs": {"src": i},
+                        }
+                        for i in uploaded_imgs
+                    ],
+                    "access_token": self.access_token,
                 },
             ) as resp:
+                if resp.status != 200:
+                    await utils.answer(
+                        self.strings("error", m).format(
+                            f"Status code: {resp.status}", await resp.text()
+                        )
+                    )
+                    return
                 try:
-                    data = await resp.json(content_type=None)
+                    data: dict = await resp.json(content_type=None)
                 except Exception as e:
                     err_json = await resp.text()
                     await utils.answer(
                         m, self.strings("error", m).format(str(e), err_json)
                     )
                     return
-                page_url = data["url"]
+                page_url = data["result"]["url"]
 
             await utils.answer(m, self.strings("result_with_url", m).format(page_url))
