@@ -15,12 +15,6 @@
 #            https://creativecommons.org/licenses/by-nc-nd/4.0
 
 import contextlib
-
-# meta developer: @D4n13l3k00
-
-
-# requires: moviepy requests
-
 import os
 import random as rnd
 import re
@@ -31,6 +25,14 @@ from moviepy.editor import *
 from telethon import types
 
 from .. import loader, utils
+
+# meta developer: @D4n13l3k00
+
+
+# requires: moviepy requests
+
+
+
 
 
 @loader.tds

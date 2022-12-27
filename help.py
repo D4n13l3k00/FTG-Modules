@@ -17,12 +17,10 @@
 # meta developer: @D4n13l3k00
 
 
-import logging
 import inspect
+import logging
 
-from telethon.tl.functions.channels import JoinChannelRequest
-
-from .. import loader, utils, main, security
+from .. import loader, main, utils
 
 logger = logging.getLogger(__name__)
 

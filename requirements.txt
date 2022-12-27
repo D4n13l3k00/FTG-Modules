@@ -1,0 +1,9 @@
+pydub
+telethon
+aiogram
+aiohttp
+requests
+yt-dlp
+numpy
+youtube-dl
+moviepy

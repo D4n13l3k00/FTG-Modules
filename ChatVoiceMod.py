@@ -16,12 +16,6 @@
 
 import contextlib
 import os
-
-# meta developer: @D4n13l3k00
-
-
-# requires: py-tgcalls youtube-dl
-
 import re
 from typing import *
 
@@ -33,6 +27,12 @@ from pytgcalls.types.input_stream.quality import HighQualityAudio, HighQualityVi
 from telethon import types
 
 from .. import loader, utils
+
+# meta developer: @D4n13l3k00
+# requires: py-tgcalls youtube-dl
+
+
+
 
 
 @loader.tds

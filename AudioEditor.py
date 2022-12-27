@@ -23,8 +23,8 @@ import io
 import math
 import re
 
-import numpy as np
 import aiohttp
+import numpy as np
 from pydub import AudioSegment, effects
 from telethon import types
 
