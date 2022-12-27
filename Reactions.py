@@ -19,8 +19,10 @@
 
 import contextlib
 from random import choice
-from .. import loader
+
 from telethon import functions
+
+from .. import loader
 
 
 @loader.tds
