@@ -38,13 +38,13 @@ class OpenAIGPTMod(loader.Module):
 
     def __init__(self):
         self.config = loader.ModuleConfig(
-            *("MODEL", "text-davinci-003", "help"),
+            *("MODEL", "text-davinci-003", "Model name"),
             *(
                 "COMPLETION_ENDPOINT",
                 "https://api.openai.com/v1/completions",
                 "Completions API endpoint",
             ),
-            *("MAX_TOKENS", 30, "Completions API endpoint"),
+            *("MAX_TOKENS", 512, "Completions API endpoint"),
             *("TEMPERATURE", 0.7, "Completions API endpoint"),
             *("DEBUG", False, "Debug mode for answers"),
         )
@@ -74,7 +74,7 @@ class OpenAIGPTMod(loader.Module):
             return await utils.answer(m, self.strings("pref", m).format("No text"))
 
         m = await utils.answer(m, self.strings("pref", m).format("Generating..."))
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=300) as client:
             response = await client.post(
                 self.config["COMPLETION_ENDPOINT"],
                 headers={
