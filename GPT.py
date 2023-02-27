@@ -65,6 +65,9 @@ class OpenAIGPTMod(loader.Module):
     @loader.owner
     async def gptcmd(self, m: types.Message):
         "<text/reply_to_text> - generate text"
+        token = self._db.get(self._db_name, 'token')
+        if not token:
+            return await utils.answer(m, self.strings("pref", m).format("No token set! Use .setgpt <token>"))
         text = utils.get_args_raw(m)
         reply = await m.get_reply_message()
         if reply:
@@ -78,7 +81,7 @@ class OpenAIGPTMod(loader.Module):
             response = await client.post(
                 self.config["COMPLETION_ENDPOINT"],
                 headers={
-                    "Authorization": f"Bearer {self._db.get(self._db_name, 'token')}",
+                    "Authorization": f"Bearer {token}",
                 },
                 json={
                     "model": self.config["MODEL"],
