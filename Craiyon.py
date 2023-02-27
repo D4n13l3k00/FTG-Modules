@@ -19,9 +19,9 @@
 import base64
 import io
 from typing import List
-from PIL import Image
 
 import aiohttp
+from PIL import Image
 from telethon import types
 
 from .. import loader, utils
@@ -60,7 +60,6 @@ class CraiyonMod(loader.Module):
         args = utils.get_args_raw(m)
 
         async with aiohttp.ClientSession() as session:
-
             m = await utils.answer(m, self.strings("preparing", m))
             async with session.post(
                 "https://api.telegra.ph/createAccount",

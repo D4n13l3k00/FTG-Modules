@@ -32,9 +32,6 @@ from .. import loader, utils
 # requires: moviepy requests
 
 
-
-
-
 @loader.tds
 class VideoEditorMod(loader.Module):
     "Module for working with video"

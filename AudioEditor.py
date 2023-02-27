@@ -295,7 +295,6 @@ class AudioEditorMod(loader.Module):
         reply = None
 
     async def get_audio(self, m, pref):
-
         r = await m.get_reply_message()
         if r and r.file and r.file.mime_type.split("/")[0] in ["audio", "video"]:
             ae = self.AudioEditorClass()

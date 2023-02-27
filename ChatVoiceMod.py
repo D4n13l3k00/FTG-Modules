@@ -32,9 +32,6 @@ from .. import loader, utils
 # requires: py-tgcalls youtube-dl
 
 
-
-
-
 @loader.tds
 class ChatVoiceMod(loader.Module):
     """Module for working with voicechat"""
