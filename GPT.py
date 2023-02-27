@@ -32,7 +32,7 @@ class OpenAIGPTMod(loader.Module):
     strings = {
         "name": "GPT",
         "pref": "<b>[GPT]</b> {}",
-        "result": "<b>Result:</b> {text}\n\n"
+        "result": "<b>Prompt</b>: {prompt}\n\n<b>Result:</b> {text}\n\n"
         "<b>Used tokens:</b> {prompt_tokens}+{completion_tokens}={total_tokens}",
     }
 
@@ -55,7 +55,7 @@ class OpenAIGPTMod(loader.Module):
 
     @loader.owner
     async def setgptcmd(self, m: types.Message):
-        "<token> - set OpenAI access Token"
+        "<token> - set OpenAI access token"
         token: str or None = utils.get_args_raw(m)
         if not token:
             return await utils.answer(m, self.strings("pref", m).format("No token"))
@@ -68,12 +68,12 @@ class OpenAIGPTMod(loader.Module):
         token = self._db.get(self._db_name, 'token')
         if not token:
             return await utils.answer(m, self.strings("pref", m).format("No token set! Use .setgpt <token>"))
-        text = utils.get_args_raw(m)
+        prompt = utils.get_args_raw(m)
         reply = await m.get_reply_message()
         if reply:
-            text = text or reply.raw_text
+            prompt = prompt or reply.raw_text
 
-        if not text:
+        if not prompt:
             return await utils.answer(m, self.strings("pref", m).format("No text"))
 
         m = await utils.answer(m, self.strings("pref", m).format("Generating..."))
@@ -85,7 +85,7 @@ class OpenAIGPTMod(loader.Module):
                 },
                 json={
                     "model": self.config["MODEL"],
-                    "prompt": text,
+                    "prompt": prompt,
                     "max_tokens": self.config["MAX_TOKENS"],
                     "temperature": self.config["TEMPERATURE"],
                 },
@@ -112,6 +112,6 @@ class OpenAIGPTMod(loader.Module):
             await utils.answer(
                 m,
                 self.strings("pref", m).format(
-                    self.strings("result", m).format(text=text, **j["usage"])
+                    self.strings("result", m).format(prompt=prompt, text=text, **j["usage"])
                 ),
             )
