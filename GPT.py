@@ -44,14 +44,28 @@ class OpenAIGPTMod(loader.Module):
                 "https://api.openai.com/v1/completions",
                 "Completions API endpoint",
             ),
-            *("MAX_TOKENS", 512, "Completions API endpoint"),
-            *("TEMPERATURE", 0.7, "Completions API endpoint"),
+            *("MAX_TOKENS", 512, "Maximum tokens"),
+            *("TEMPERATURE", 0.7, "Temperature"),
             *("DEBUG", False, "Debug mode for answers"),
+            *("CGPT_ENDPOINT",
+                "https://api.openai.com/v1/chat/completions",
+                "ChatGPT API endpoint"
+            ),
+            *("CGPT_MODEL", "gpt-3.5-turbo", "ChatGPT model name"),
+            *("CGPT_TEMPERATURE", 0.7, "ChatGPT temperature"),
         )
 
-    async def client_ready(self, _, db):
+    async def client_ready(self, client, db):
+        self._client = client
         self._db = db
         self._db_name = "OpenAI_GPT"
+        self.messages_history_default = [
+            {
+                "role":"system",
+                "content":"You are the FTG-AI bot based on ChatGPT. You are live in Friendly-Telegram userbot (aka FTG)."
+            }
+        ]
+        self.messages_history = []+self.messages_history_default
 
     @loader.owner
     async def setgptcmd(self, m: types.Message):
@@ -92,6 +106,7 @@ class OpenAIGPTMod(loader.Module):
                     "temperature": self.config["TEMPERATURE"],
                 },
             )
+            j = response.json()
             if response.status_code != 200:
                 if self.config["DEBUG"]:
                     return await utils.answer(
@@ -103,7 +118,6 @@ class OpenAIGPTMod(loader.Module):
                         f"<b>Error:</b> {response.status_code} {response.reason_phrase}"
                     ),
                 )
-            j = response.json()
             if self.config["DEBUG"]:
                 return await utils.answer(
                     m, "<code>{}</code>".format(str(json.dumps(j, indent=2)))
@@ -119,3 +133,71 @@ class OpenAIGPTMod(loader.Module):
                     )
                 ),
             )
+
+    @loader.owner
+    async def cgptcmd(self, m: types.Message):
+        "<text/reply_to_text> - answer ChatGPT (gpt-3.5-turbo)"
+        token = self._db.get(self._db_name, "token")
+        if not token:
+            return await utils.answer(
+                m, self.strings("pref", m).format("No token set! Use .setgpt <token>")
+            )
+        
+        prompt = utils.get_args_raw(m)
+        reply = await m.get_reply_message()
+        if reply:
+            prompt = prompt or reply.raw_text
+
+        if not prompt:
+            return await utils.answer(m, self.strings("pref", m).format("No text"))
+        m = await utils.answer(m, self.strings("pref", m).format("Generating..."))
+        async with httpx.AsyncClient(timeout=300) as client:
+            
+            response = await client.post(
+                self.config["CGPT_ENDPOINT"],
+                headers={
+                    "Authorization": f"Bearer {token}",
+                },
+                json={
+                    "model": self.config["CGPT_MODEL"],
+                    "messages": self.messages_history + [{"role": "user", "content": prompt}],
+                    "temperature": self.config["CGPT_TEMPERATURE"],
+                }
+            )
+            j = response.json()
+            if response.status_code != 200:
+                if self.config["DEBUG"]:
+                    return await utils.answer(
+                        m, "<code>{}</code>".format(str(json.dumps(j, indent=2)))
+                    )
+                return await utils.answer(
+                    m,
+                    self.strings("pref", m).format(
+                        f"<b>Error:</b> {response.status_code} {response.reason_phrase}"
+                    ),
+                )
+            if self.config["DEBUG"]:
+                return await utils.answer(
+                    m, "<code>{}</code>".format(str(json.dumps(j, indent=2)))
+                )
+            text = j["choices"][0]["message"]["content"].strip("\n").strip(" ")
+            self.messages_history.append({"role": "user", "content": prompt})
+            self.messages_history.append({"role": "assistant", "content": text})
+
+            if j["choices"][0]["finish_reason"] == "length":
+                text += "\n<code>TOKEN_LIMIT. Use .config to change them.</code>"
+
+            await utils.answer(
+                m,
+                self.strings("pref", m).format(
+                    self.strings("result", m).format(
+                        prompt=prompt, text=text, **j["usage"]
+                    )
+                ),
+            )
+
+    @loader.owner
+    async def cgptresetcmd(self, m: types.Message):
+        "Reset ChatGPT history"
+        self.messages_history = []+self.messages_history_default
+        await utils.answer(m, self.strings("pref", m).format("ChatGPT history reset"))
