@@ -47,12 +47,18 @@ class OpenAIGPTMod(loader.Module):
             *("MAX_TOKENS", 512, "Maximum tokens"),
             *("TEMPERATURE", 0.7, "Temperature"),
             *("DEBUG", False, "Debug mode for answers"),
-            *("CGPT_ENDPOINT",
+            *(
+                "CGPT_ENDPOINT",
                 "https://api.openai.com/v1/chat/completions",
-                "ChatGPT API endpoint"
+                "ChatGPT API endpoint",
             ),
             *("CGPT_MODEL", "gpt-3.5-turbo", "ChatGPT model name"),
             *("CGPT_TEMPERATURE", 0.7, "ChatGPT temperature"),
+            *(
+                "CGPT_SYSTEM_MSG",
+                "You are the FTGai, AI assistant, which live in FTG (Friendly-Telegram userbot for Telegram messenger).",
+                "ChatGPT system message",
+            ),
         )
 
     async def client_ready(self, client, db):
@@ -61,11 +67,11 @@ class OpenAIGPTMod(loader.Module):
         self._db_name = "OpenAI_GPT"
         self.messages_history_default = [
             {
-                "role":"system",
-                "content":"You are the FTG-AI bot based on ChatGPT. You are live in Friendly-Telegram userbot (aka FTG)."
+                "role": "system",
+                "content": self.config["CGPT_SYSTEM_MSG"],
             }
         ]
-        self.messages_history = []+self.messages_history_default
+        self.messages_history = [] + self.messages_history_default
 
     @loader.owner
     async def setgptcmd(self, m: types.Message):
@@ -142,7 +148,7 @@ class OpenAIGPTMod(loader.Module):
             return await utils.answer(
                 m, self.strings("pref", m).format("No token set! Use .setgpt <token>")
             )
-        
+
         prompt = utils.get_args_raw(m)
         reply = await m.get_reply_message()
         if reply:
@@ -152,7 +158,6 @@ class OpenAIGPTMod(loader.Module):
             return await utils.answer(m, self.strings("pref", m).format("No text"))
         m = await utils.answer(m, self.strings("pref", m).format("Generating..."))
         async with httpx.AsyncClient(timeout=300) as client:
-            
             response = await client.post(
                 self.config["CGPT_ENDPOINT"],
                 headers={
@@ -160,9 +165,10 @@ class OpenAIGPTMod(loader.Module):
                 },
                 json={
                     "model": self.config["CGPT_MODEL"],
-                    "messages": self.messages_history + [{"role": "user", "content": prompt}],
+                    "messages": self.messages_history
+                    + [{"role": "user", "content": prompt}],
                     "temperature": self.config["CGPT_TEMPERATURE"],
-                }
+                },
             )
             j = response.json()
             if response.status_code != 200:
@@ -199,5 +205,5 @@ class OpenAIGPTMod(loader.Module):
     @loader.owner
     async def cgptresetcmd(self, m: types.Message):
         "Reset ChatGPT history"
-        self.messages_history = []+self.messages_history_default
+        self.messages_history = [] + self.messages_history_default
         await utils.answer(m, self.strings("pref", m).format("ChatGPT history reset"))
