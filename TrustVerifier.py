@@ -21,7 +21,7 @@ import hashlib
 import aiohttp
 from telethon.tl import types
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 @loader.tds

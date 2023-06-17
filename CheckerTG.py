@@ -19,7 +19,7 @@
 
 import aiohttp
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 @loader.tds

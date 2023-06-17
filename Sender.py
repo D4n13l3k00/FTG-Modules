@@ -21,7 +21,7 @@ import re
 
 from telethon.errors import ChannelInvalidError
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 @loader.tds

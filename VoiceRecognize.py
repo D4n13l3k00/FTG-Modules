@@ -23,7 +23,7 @@ from io import BytesIO
 import speech_recognition as srec
 from pydub import AudioSegment as auds
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 @loader.tds

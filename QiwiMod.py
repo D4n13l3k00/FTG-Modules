@@ -27,7 +27,7 @@ from Crypto.Util.Padding import pad, unpad
 from glQiwiApi import QiwiWrapper
 from telethon import types
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 @loader.tds

@@ -4,12 +4,12 @@
 
 import os
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 @loader.tds
 class TesseractMod(loader.Module):
-    strings = {'name': 'Tesseract'}
+    strings = {"name": "Tesseract"}
 
     @loader.owner
     async def ocrcmd(self, m):
@@ -20,5 +20,7 @@ class TesseractMod(loader.Module):
         await m.edit("[OCR] Распознаём")
         file = await reply.download_media()
         rec = os.popen(f"tesseract -l rus+eng {file} stdout").read()
-        await m.edit("[OCR]\n" + (("<code>"+rec+"</code>") if rec != "" else "НЕ_РАСПОЗНАНО"))
+        await m.edit(
+            "[OCR]\n" + (("<code>" + rec + "</code>") if rec != "" else "НЕ_РАСПОЗНАНО")
+        )
         os.remove(file)

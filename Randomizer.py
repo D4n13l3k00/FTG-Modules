@@ -20,7 +20,7 @@
 import random
 import re
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 @loader.tds

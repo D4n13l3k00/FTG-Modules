@@ -23,7 +23,7 @@ import io
 
 from ShazamAPI import Shazam
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 @loader.tds

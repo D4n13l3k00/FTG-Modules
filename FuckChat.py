@@ -20,7 +20,7 @@
 import re
 from asyncio import sleep
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 @loader.tds

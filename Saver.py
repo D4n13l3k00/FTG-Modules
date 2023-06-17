@@ -20,7 +20,7 @@ import io
 
 from telethon import types
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 @loader.tds

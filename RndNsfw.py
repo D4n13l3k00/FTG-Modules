@@ -24,7 +24,7 @@ from asyncio import sleep
 from telethon import events, functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 def register(cb):

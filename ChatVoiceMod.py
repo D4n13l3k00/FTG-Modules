@@ -26,7 +26,7 @@ from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import HighQualityAudio, HighQualityVideo
 from telethon import types
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 # meta developer: @D4n13l3k00
 # requires: py-tgcalls youtube-dl

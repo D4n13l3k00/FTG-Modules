@@ -17,7 +17,7 @@
 # meta developer: @D4n13l3k00
 
 
-from .. import loader, utils # type: ignore
+from .. import loader, utils  # type: ignore
 
 
 def register(cb):
