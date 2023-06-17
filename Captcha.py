@@ -17,7 +17,7 @@ from telethon.events import ChatAction
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 
 @loader.tds

@@ -24,7 +24,7 @@ import aiohttp
 from PIL import Image
 from telethon import types
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 
 @loader.tds

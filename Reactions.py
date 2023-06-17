@@ -22,7 +22,7 @@ from random import choice
 
 from telethon import functions
 
-from .. import loader
+from .. import loader  # type: ignore
 
 
 @loader.tds

@@ -20,7 +20,7 @@
 import ast
 import io
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 
 @loader.tds

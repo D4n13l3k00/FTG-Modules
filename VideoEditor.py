@@ -24,7 +24,7 @@ import requests
 from moviepy.editor import *
 from telethon import types
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 # meta developer: @D4n13l3k00
 

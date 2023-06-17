@@ -20,7 +20,7 @@
 import inspect
 import logging
 
-from .. import loader, main, utils
+from .. import loader, main, utils  # type: ignore
 
 logger = logging.getLogger(__name__)
 

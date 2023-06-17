@@ -23,7 +23,7 @@ from telethon import functions, types
 from telethon.tl.functions.account import UpdateProfileRequest
 from telethon.tl.functions.users import GetFullUserRequest
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 
 @loader.tds

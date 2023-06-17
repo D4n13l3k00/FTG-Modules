@@ -33,7 +33,7 @@ from yt_dlp.utils import (
     XAttrMetadataError,
 )
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 
 @loader.tds

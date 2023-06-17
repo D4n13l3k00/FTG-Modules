@@ -24,7 +24,7 @@ import requests
 import telethon
 from telethon.tl.types import *
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 
 @loader.tds

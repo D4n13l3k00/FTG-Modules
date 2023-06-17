@@ -29,7 +29,7 @@ from fake_useragent import UserAgent
 from PIL import Image, ImageEnhance, ImageOps
 from telethon import types
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 
 @loader.tds

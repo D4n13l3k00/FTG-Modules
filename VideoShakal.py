@@ -21,7 +21,7 @@ import os
 import random
 import string
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 
 @loader.tds

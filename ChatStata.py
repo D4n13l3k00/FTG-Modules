@@ -19,7 +19,7 @@
 
 from telethon.tl.types import *
 
-from .. import loader
+from .. import loader  # type: ignore
 
 
 @loader.tds

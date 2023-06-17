@@ -4,7 +4,7 @@
 
 import random
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 
 @loader.tds

@@ -21,7 +21,7 @@ import os
 
 from telethon import functions, types
 
-from .. import loader, utils
+from .. import loader, utils # type: ignore
 
 
 @loader.tds
