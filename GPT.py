@@ -65,8 +65,8 @@ class OpenAIGPTMod(loader.Module):
             *(
                 "MODERATION_ENDPOINT",
                 "https://api.openai.com/v1/moderations",
-                "OpenAI's moderation endpoint"
-            )
+                "OpenAI's moderation endpoint",
+            ),
         )
 
     async def client_ready(self, client, db):
@@ -224,9 +224,7 @@ class OpenAIGPTMod(loader.Module):
         if not token:
             return await utils.answer(
                 m,
-                self.strings("prefom", m).format(
-                    "No token set! Use .setgpt <token>"
-                ),
+                self.strings("prefom", m).format("No token set! Use .setgpt <token>"),
             )
 
         if not m.chat:
@@ -246,7 +244,7 @@ class OpenAIGPTMod(loader.Module):
                 m, self.strings("prefom", m).format("Moderation disabled for this chat")
             )
         self._db.set(self._db_name, "moderation", chats)
-    
+
     async def watcher(self, m: types.Message):
         if not isinstance(m, types.Message):
             return
@@ -262,9 +260,7 @@ class OpenAIGPTMod(loader.Module):
                 headers={
                     "Authorization": f"Bearer {token}",
                 },
-                json={
-                    "input": m.raw_text
-                },
+                json={"input": m.raw_text},
             )
             j = response.json()
             if response.status_code != 200:
@@ -284,4 +280,3 @@ class OpenAIGPTMod(loader.Module):
                 )
             if j["results"]["flagged"]:
                 return await m.delete()
-
