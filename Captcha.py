@@ -7,8 +7,7 @@
 import asyncio
 import io
 import logging
-from datetime import datetime, timedelta
-from typing import *
+from typing import List
 
 import aiohttp
 import pydantic
@@ -27,7 +26,8 @@ class CaptchaMod(loader.Module):
 
     strings = {
         "name": "Captcha",
-        "pls_pass_captcha": '<a href="tg://user?id={}">Хэй</a>, пройди капчу! У тебя одна попытка\nИначе получишь бан навсегда!',
+        "pls_pass_captcha": '<a href="tg://user?id={}">Хэй</a>, пройди капчу! У тебя одна попытка\n'
+        "Иначе получишь бан навсегда!",
         "captcha_status": "<b>[Captcha]</b> {}",
     }
 

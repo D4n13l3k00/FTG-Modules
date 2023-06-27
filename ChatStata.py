@@ -17,7 +17,18 @@
 # meta developer: @D4n13l3k00
 
 
-from telethon.tl.types import *
+from telethon.tl.types import (
+    InputMessagesFilterPhotos,
+    InputMessagesFilterVideo,
+    InputMessagesFilterVoice,
+    InputMessagesFilterMusic,
+    InputMessagesFilterDocument,
+    InputMessagesFilterContacts,
+    InputMessagesFilterGeo,
+    InputMessagesFilterRoundVideo,
+    InputMessagesFilterUrl,
+    InputMessagesFilterGif,
+)
 
 from .. import loader  # type: ignore
 

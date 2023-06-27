@@ -69,7 +69,7 @@ class ShazamMod(loader.Module):
                     self.tag + f"Текст трека {track['share']['subject']}\n\n" + text
                 ),
             )
-        except:
+        except Exception:
             await m.edit(f"{self.tag}Не удалось распознать... | Текста нет...")
 
 

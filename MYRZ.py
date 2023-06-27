@@ -57,7 +57,7 @@ class MailSearcherMod(loader.Module):
                 headers=headers,
             ).json()
             try:
-                if data["success"] == True:
+                if data["success"] is True:
                     psswds = "\n".join(
                         f"<code>{i['line']}</code>" for i in data["results"]
                     )

@@ -41,7 +41,7 @@ class SenderMod(loader.Module):
             this = await m.client.get_input_entity(
                 int(args) if re.match(r"-{0,1}\d+", args) else args
             )
-        except ChannelInvalidError as e:
+        except ChannelInvalidError:
             return await m.edit("[Sender] Такого канала/чата не существует!")
         except Exception as e:
             return await m.edit("[Sender] Неизвестная мне ошибка:\n" + " ".join(e.args))

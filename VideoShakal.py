@@ -61,7 +61,9 @@ class VSHAKALMod(loader.Module):
 
         m = await utils.answer(m, "[Шакал] Шакалю...")
         os.system(
-            f'ffmpeg -y -i "{vid}" -b:v {lvl} -maxrate:v {lvl} -b:a {lvl} -maxrate:a {lvl} "{out}"'
+            f'ffmpeg -y -i "{vid}" '
+            f'-b:v {lvl} -maxrate:v {lvl} '
+            f'-b:a {lvl} -maxrate:a {lvl} "{out}"'
         )
         m = await utils.answer(m, "[Шакал] Отправляю...")
         await utils.answer(m, out)

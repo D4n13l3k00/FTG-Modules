@@ -4,7 +4,7 @@
 
 import os
 
-from .. import loader, utils  # type: ignore
+from .. import loader  # type: ignore
 
 
 @loader.tds

@@ -154,7 +154,7 @@ class VideoEditorMod(loader.Module):
         await go_out(self, vid.message, vid, out, vid.pref)
         try:
             os.remove(nm)
-        except:
+        except Exception:
             pass
 
     @loader.owner

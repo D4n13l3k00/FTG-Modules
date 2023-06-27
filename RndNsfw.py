@@ -19,7 +19,6 @@
 
 import datetime
 import random
-from asyncio import sleep
 
 from telethon import events, functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
@@ -178,7 +177,7 @@ class RandomNSFWMod(loader.Module):
                 if arg:
                     m1 = await message.client.send_message(chat, f"/nudes2d {arg}")
                 else:
-                    m1 = await message.client.send_message(chat, f"/nudes2d")
+                    m1 = await message.client.send_message(chat, "/nudes2d")
                 response = await response
             except YouBlockedUserError:
                 await message.reply("<code>Unblock @murglar_bot</code>")

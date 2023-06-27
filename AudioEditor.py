@@ -110,7 +110,7 @@ class AudioEditorMod(loader.Module):
         none = io.BytesIO()
         out += audio.audio + AudioSegment.from_file(none)
         for _ in range(5):
-            echo = audio.audio - 10
+            audio.audio - 10
             out = out.overlay(audio.audio, n)
             n += 200
         await self.send_audio(audio.message, audio, out, audio.pref, audio.pref)
@@ -226,7 +226,6 @@ class AudioEditorMod(loader.Module):
     async def tovscmd(self, m):
         """.tovs <reply to audio>
         Convert to voice message"""
-        f = utils.get_args_raw(m)
         audio = await self.get_audio(m, "Voice")
         if not audio:
             return

@@ -40,7 +40,7 @@ class WttrInMod(loader.Module):
             "<code>{}</code>".format(
                 await (
                     await aiohttp.ClientSession().get(
-                        f"https://wttr.in/{rr if rr != None else ''}?0Tq&lang=ru"
+                        f"https://wttr.in/{rr if rr is not None else ''}?0Tq&lang=ru"
                     )
                 ).text()
             ),

@@ -21,7 +21,7 @@ import io
 
 import requests
 
-from .. import loader, utils  # type: ignore
+from .. import loader  # type: ignore
 
 
 def register(cb):
