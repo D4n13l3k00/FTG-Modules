@@ -144,7 +144,7 @@ class YtDlMod(loader.Module):
             u = rip_data["uploader"] if "uploader" in rip_data else "Northing"
             await utils.answer(
                 m,
-                open(f"{rip_data['id']}.mp3", "rb"),
+                open(f"{rip_data['id']}.mp3.mp3", "rb"),
                 supports_streaming=True,
                 reply_to=reply.id if reply else None,
                 attributes=[
